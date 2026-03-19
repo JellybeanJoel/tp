@@ -5,12 +5,14 @@ public class Trip {
     private String startDate;
     private String endDate;
     private final ActivityList activities;
+    private boolean isOpen;
 
     public Trip(String name, String startDate, String endDate) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.activities = new ActivityList();
+        this.activities = new ActivityList(this);
+        this.isOpen = false;
     }
 
     public String getName() {
@@ -39,6 +41,14 @@ public class Trip {
 
     public ActivityList getActivities() {
         return activities;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 
     @Override
