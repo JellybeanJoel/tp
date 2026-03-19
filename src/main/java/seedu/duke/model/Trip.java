@@ -12,7 +12,7 @@ public class Trip {
         this.startDate = startDate;
         this.endDate = endDate;
         this.isOpen = false;
-        this.activities = new ActivityList();
+        this.activities = new ActivityList(this);
     }
 
     public String getDestination() {

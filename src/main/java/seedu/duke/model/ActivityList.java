@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 public class ActivityList {
     private final ArrayList<Activity> activities;
-    private boolean isTripOpen;
+    private Trip trip;
 
     public ActivityList(Trip trip){
         this.trip = trip;
-        this.isTripOpen = trip.isOpen();
         activities = new ArrayList<>();
     }
 
@@ -33,7 +32,7 @@ public class ActivityList {
     }
 
     public boolean isTripOpen() {
-        return isTripOpen;
+        return trip.isOpen();
     }
 
     public ArrayList<Activity> findActivities(String keyword) {
