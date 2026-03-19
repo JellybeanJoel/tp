@@ -6,9 +6,9 @@ import seedu.duke.model.TripList;
 public class DeleteTripCommand extends TripCommand {
     private final int index;
 
-    public DeleteTripCommand(TripList tripList, int tripNumber) {
+    public DeleteTripCommand(TripList tripList, int index) {
         super(tripList);
-        this.index = tripNumber - 1;
+        this.index = index;
     }
 
     @Override
