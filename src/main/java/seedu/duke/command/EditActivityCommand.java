@@ -12,8 +12,8 @@ public class EditActivityCommand extends ActivityCommand{
     private final String end;
 
 
-    public EditActivityCommand(ActivityList activityList, int index, String name, String location,
-                               String date, String start, String end) {
+    public EditActivityCommand(ActivityList activityList, int index, String name, String location, String date,
+                               String start, String end) {
         super(activityList);
         this.index = index;
         this.name = name;
