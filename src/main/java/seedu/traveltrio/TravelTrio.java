@@ -130,6 +130,7 @@ public class TravelTrio {
         if (TravelTrio.openTrip == null) {
             throw new IllegalStateException("You need to open a trip first. (Use 'opentrip')");
         }
+        assert openTrip != null : "openTrip should not be null after check";
     }
 }
 
