@@ -31,7 +31,12 @@ public class EditActivityCommand extends ActivityCommand{
             return "Oops! Invalid activity index provided.";
         }
 
+        assert activityList != null : "ActivityList must be initialized before editing.";
+        assert !activityList.isEmpty() : "Cannot edit an activity in an empty list.";
+
         Activity activity = activityList.get(zeroBasedIndex);
+
+        assert activity != null : "The activity to be edited should not be null.";
 
         if (name != null) {
             activity.setName(name);
@@ -49,6 +54,10 @@ public class EditActivityCommand extends ActivityCommand{
             activity.setEnd(end);
         }
 
+        if (name != null) {
+            assert !activity.getName().isBlank() : "Activity name should not be blank after edit.";
+        }
+        
         return "Activity updated:\n\n" + activity + "\n";
     }
 

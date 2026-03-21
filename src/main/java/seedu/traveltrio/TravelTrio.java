@@ -27,7 +27,6 @@ public class TravelTrio {
             + "    |_|_|  \\__,_| \\_/ \\___||_|  |_|_|  |_|\\___/ \n";
 
     public static void main(String[] args) {
-
         System.out.println("Welcome to \n" + LOGO);
         System.out.println("How can I help you plan today?");
 
@@ -132,6 +131,7 @@ public class TravelTrio {
         if (TravelTrio.openTrip == null) {
             throw new IllegalStateException("You need to open a trip first. (Use 'opentrip')");
         }
+        assert openTrip != null : "openTrip should not be null after check";
     }
 }
 

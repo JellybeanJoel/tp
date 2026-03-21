@@ -19,7 +19,12 @@ public class DeleteActivityCommand extends ActivityCommand {
             return "Oops! Invalid activity index provided.";
         }
 
+        assert activityList.isTripOpen() : "Cannot delete an activity if no trip is open.";
+
+        int sizeBefore = activityList.size();
         Activity removedActivity = activityList.remove(zeroBasedIndex);
+
+        assert activityList.size() == sizeBefore - 1 : "Activity list size should decrease by 1.";
 
         return "Activity deleted:\n\n" + removedActivity.getName() + "\n";
     }
