@@ -1,8 +1,10 @@
 package seedu.traveltrio.command;
 
 import org.junit.jupiter.api.Test;
-import seedu.traveltrio.model.ActivityList;
-import seedu.traveltrio.model.Trip;
+
+import seedu.traveltrio.model.activity.ActivityList;
+import seedu.traveltrio.model.trip.Trip;
+import seedu.traveltrio.command.activity.AddActivityCommand;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

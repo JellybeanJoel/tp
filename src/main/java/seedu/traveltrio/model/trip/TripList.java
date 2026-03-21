@@ -1,4 +1,4 @@
-package seedu.traveltrio.model;
+package seedu.traveltrio.model.trip;
 
 import java.util.ArrayList;
 

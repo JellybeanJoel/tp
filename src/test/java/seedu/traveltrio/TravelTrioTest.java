@@ -1,4 +1,4 @@
-package seedu.traveltrio.command;
+package seedu.traveltrio;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

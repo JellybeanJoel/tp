@@ -1,4 +1,4 @@
-package seedu.traveltrio.model;
+package seedu.traveltrio.model.activity;
 
 public class Activity {
     private String name;

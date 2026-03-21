@@ -1,16 +1,15 @@
 package seedu.traveltrio;
 
-import seedu.traveltrio.command.AddTripCommand;
-import seedu.traveltrio.command.ListTripCommand;
-import seedu.traveltrio.command.DeleteTripCommand;
-import seedu.traveltrio.command.OpenTripCommand;
-import seedu.traveltrio.command.AddActivityCommand;
-import seedu.traveltrio.command.ListActivityCommand;
-import seedu.traveltrio.command.DeleteActivityCommand;
-import seedu.traveltrio.command.EditActivityCommand;
-
-import seedu.traveltrio.model.Trip;
-import seedu.traveltrio.model.TripList;
+import seedu.traveltrio.command.trip.AddTripCommand;
+import seedu.traveltrio.command.trip.DeleteTripCommand;
+import seedu.traveltrio.command.trip.ListTripCommand;
+import seedu.traveltrio.command.trip.OpenTripCommand;
+import seedu.traveltrio.command.activity.AddActivityCommand;
+import seedu.traveltrio.command.activity.ListActivityCommand;
+import seedu.traveltrio.command.activity.DeleteActivityCommand;
+import seedu.traveltrio.command.activity.EditActivityCommand;
+import seedu.traveltrio.model.trip.Trip;
+import seedu.traveltrio.model.trip.TripList;
 
 import java.util.HashMap;
 import java.util.Scanner;

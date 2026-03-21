@@ -1,8 +1,8 @@
-package seedu.traveltrio.command;
+package seedu.traveltrio.command.activity;
 
 
-import seedu.traveltrio.model.Activity;
-import seedu.traveltrio.model.ActivityList;
+import seedu.traveltrio.model.activity.Activity;
+import seedu.traveltrio.model.activity.ActivityList;
 
 public class DeleteActivityCommand extends ActivityCommand {
     private final int index;

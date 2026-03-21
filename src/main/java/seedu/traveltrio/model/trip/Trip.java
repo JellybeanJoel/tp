@@ -1,4 +1,6 @@
-package seedu.traveltrio.model;
+package seedu.traveltrio.model.trip;
+
+import seedu.traveltrio.model.activity.ActivityList;
 
 public class Trip {
     private String name;

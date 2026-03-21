@@ -1,6 +1,6 @@
-package seedu.traveltrio.command;
+package seedu.traveltrio.command.activity;
 
-import seedu.traveltrio.model.ActivityList;
+import seedu.traveltrio.model.activity.ActivityList;
 
 
 public abstract class ActivityCommand {

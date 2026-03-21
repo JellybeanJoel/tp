@@ -1,6 +1,8 @@
-package seedu.traveltrio.model;
+package seedu.traveltrio.model.activity;
 
 import java.util.ArrayList;
+
+import seedu.traveltrio.model.trip.Trip;
 
 public class ActivityList {
     private final ArrayList<Activity> activities;

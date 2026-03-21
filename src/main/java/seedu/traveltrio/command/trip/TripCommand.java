@@ -1,6 +1,6 @@
-package seedu.traveltrio.command;
+package seedu.traveltrio.command.trip;
 
-import seedu.traveltrio.model.TripList;
+import seedu.traveltrio.model.trip.TripList;
 
 public abstract class TripCommand {
 

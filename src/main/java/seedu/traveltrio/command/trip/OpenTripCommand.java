@@ -1,7 +1,7 @@
-package seedu.traveltrio.command;
+package seedu.traveltrio.command.trip;
 
-import seedu.traveltrio.model.Trip;
-import seedu.traveltrio.model.TripList;
+import seedu.traveltrio.model.trip.Trip;
+import seedu.traveltrio.model.trip.TripList;
 
 public class OpenTripCommand extends TripCommand {
     private final int index;
