@@ -8,6 +8,8 @@ import seedu.traveltrio.command.activity.AddActivityCommand;
 import seedu.traveltrio.command.activity.ListActivityCommand;
 import seedu.traveltrio.command.activity.DeleteActivityCommand;
 import seedu.traveltrio.command.activity.EditActivityCommand;
+import seedu.traveltrio.command.budget.AddBudgetCommand;
+import seedu.traveltrio.command.budget.BudgetSummaryCommand;
 import seedu.traveltrio.model.trip.Trip;
 import seedu.traveltrio.model.trip.TripList;
 
@@ -29,7 +31,7 @@ public class TravelTrio {
         System.out.println("Welcome to \n" + LOGO);
         System.out.println("How can I help you plan today?");
         System.out.println("Commands: addtrip, listtrip, opentrip, deletetrip, "
-                + "addactivity, listactivity, editactivity, deleteactivity, exit");
+                + "addactivity, listactivity, editactivity, deleteactivity, addbudget, budgetsummary, exit");
 
         while (true) {
             System.out.println("> ");
@@ -114,7 +116,25 @@ public class TravelTrio {
                     System.out.println(new DeleteActivityCommand(openTrip.getActivities(), actIdx)
                             .execute(openTrip.getName()));
                     break;
+                
+                case "addbudget":
+                    ensureTripOpen();
+                    if (openTrip.getActivities().isEmpty()) {
+                        System.out.println("No activities found. Please add an activity before setting a budget.");
+                        break;
+                    }
+                    System.out.println(new ListActivityCommand(openTrip.getActivities()).execute(openTrip.getName()));
+                    int budgetActivityIdx = promptInt("Enter the number of the activity to add a budget for. ");
+                    double budgetAmount = promptDouble("Enter budget amount ($)");
+                    System.out.println(new AddBudgetCommand(openTrip.getBudgets(),
+                            openTrip.getActivities(), openTrip.getActivities().get(budgetActivityIdx - 1), budgetAmount)
+                            .execute());
+                    break;
 
+                case "budgetsummary":
+                    ensureTripOpen();
+                    System.out.println(new BudgetSummaryCommand(openTrip.getBudgets(), openTrip.getActivities()).execute());
+                    break;
                 default:
                     System.out.println("Unknown command. Available commands: addtrip, listtrip, "
                             + "opentrip, deletetrip, addactivity, listactivity, "
@@ -148,6 +168,18 @@ public class TravelTrio {
                 return Integer.parseInt(input);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid number. Please enter a valid integer.");
+            }
+        }
+    }
+
+    private static double promptDouble(String label) {
+        while (true) {
+            System.out.print(label + ": ");
+            String input = in.nextLine().trim();
+            try {
+                return Double.parseDouble(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Please enter a valid decimal number.");
             }
         }
     }

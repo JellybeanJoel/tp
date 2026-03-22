@@ -1,12 +1,14 @@
 package seedu.traveltrio.model.trip;
 
 import seedu.traveltrio.model.activity.ActivityList;
+import seedu.traveltrio.model.budget.BudgetList;
 
 public class Trip {
     private String name;
     private String startDate;
     private String endDate;
     private final ActivityList activities;
+    private final BudgetList budgets;
     private boolean isOpen;
 
     public Trip(String name, String startDate, String endDate) {
@@ -14,6 +16,7 @@ public class Trip {
         this.startDate = startDate;
         this.endDate = endDate;
         this.activities = new ActivityList(this);
+        this.budgets = new BudgetList();
         this.isOpen = false;
     }
 
@@ -43,6 +46,10 @@ public class Trip {
 
     public ActivityList getActivities() {
         return activities;
+    }
+
+    public BudgetList getBudgets() {
+        return budgets;
     }
 
     public boolean isOpen() {
