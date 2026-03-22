@@ -1,19 +1,57 @@
 package seedu.traveltrio.model.activity;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+
 public class Activity {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+
+
     private String name;
     private String location;
-    private String date;
-    private String start;
-    private String end;
+    private LocalDate date;
+    private LocalTime start;
+    private LocalTime end;
 
 
     public Activity(String name, String location, String date, String start, String end) {
         this.name = name;
         this.location = location;
-        this.date = date;
-        this.start = start;
-        this.end = end;
+        this.date = parseDate(date);
+        this.start = parseTime(start, "Start time");
+        this.end = parseTime(end, "End time");
+
+        if (this.start != null && this.end != null && !this.end.isAfter(this.start)) {
+            throw new IllegalArgumentException("End time must be after start time.");
+        }
+    }
+
+    private LocalDate parseDate(String date) {
+        if (date == null || date.isBlank()) {
+            return null;
+        }
+        try {
+            return LocalDate.parse(date, DATE_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format: '" + date
+                    + "'. Please use YYYY-MM-DD.");
+        }
+    }
+
+    private LocalTime parseTime(String time, String fieldName) {
+        if (time == null || time.isBlank()) {
+            return null;
+        }
+        try {
+            return LocalTime.parse(time, TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid " + fieldName + " format: '" + time
+                    + "'. Please use HH:mm.");
+        }
     }
 
     public String getName() {
@@ -33,35 +71,54 @@ public class Activity {
     }
 
     public String getDate() {
-        return date;
+        return date != null ? date.format(DATE_FORMATTER) : null;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.date = parseDate(date);
     }
 
     public String getStart() {
-        return start;
+        return start != null ? start.format(TIME_FORMATTER) : null;
     }
 
     public void setStart(String start) {
-        this.start = start;
+        this.start = parseTime(start, "Start time");
     }
 
     public String getEnd() {
-        return end;
+        return end != null ? end.format(TIME_FORMATTER) : null;
     }
 
     public void setEnd(String end) {
-        this.end = end;
+        this.end = parseTime(end, "End time");
+    }
+
+    public LocalTime getLocalStart() {
+        return start;
+    }
+
+    public LocalTime getLocalEnd() {
+        return end;
+    }
+
+    public boolean overlapsWith(Activity other) {
+        if (this.date == null || other.date == null || !this.date.equals(other.date)) {
+            return false;
+        }
+        if (this.start == null || this.end == null
+                || other.start == null || other.end == null) {
+            return false;
+        }
+        return this.start.isBefore(other.end) && other.start.isBefore(this.end);
     }
 
     @Override
     public String toString() {
         String result = name + "\n";
-        result += "📍 Location: " + (location != null ? location : "---") + "\n";
-        result += "📆 Date: " + (date != null ? date : "---") + "\n";
-        result += "🕛 Time: " + (start == null || end == null ? "---" : (start + " to " + end));
+        result += " Location: " + (location != null ? location : "---") + "\n";
+        result += " Date: " + (date != null ? date : "---") + "\n";
+        result += " Time: " + (start == null || end == null ? "---" : (start + " to " + end));
 
         return result;
     }

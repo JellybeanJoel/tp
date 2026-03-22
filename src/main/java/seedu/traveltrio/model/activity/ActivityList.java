@@ -13,9 +13,47 @@ public class ActivityList {
         this.trip = trip;
     }
 
-    public void add(Activity a) {
+    public String add(Activity a) {
         assert a != null : "Activity to add should not be null";
-        activities.add(a);
+
+        for(Activity existing : activities){
+            if (a.overlapsWith(existing)) {
+                return "Warning: This activity overlaps with an existing activity:\n\n"
+                        + existing.formatForList() + "\n\n"
+                        + "Please edit the existing activity or choose a different time.";
+            }
+        }
+
+        int insertIdx = activities.size();
+        for (int i = 0; i < activities.size(); i ++) {
+            Activity current = activities.get(i);
+            if (isEarlier(a, current)) {
+                insertIdx = i;
+                break;
+            }
+        }
+        activities.add(insertIdx, a);
+        return null;
+    }
+
+    private boolean isEarlier(Activity a, Activity b){
+        if (a.getDate() == null) {
+            return false;
+        }
+        if (b.getDate() == null) {
+            return true;
+        }
+        int dateCmp = a.getDate().compareTo(b.getDate());
+        if (dateCmp != 0) {
+            return dateCmp < 0;
+        }
+        if (a.getLocalStart() == null) {
+            return false;
+        }
+        if (b.getLocalStart() == null) {
+            return true;
+        }
+        return a.getLocalStart().isBefore(b.getLocalStart());
     }
 
     public Activity remove(int index) {

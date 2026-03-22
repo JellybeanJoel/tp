@@ -23,12 +23,13 @@ public class AddActivityCommand extends ActivityCommand{
 
 
     public String execute(String tripName) {
-        //add checks for whether a trip is open later.
-
         Activity a = new Activity(name, location, date, start, end);
-        activityList.add(a);
+
+        String overlapWarning = activityList.add(a);
+        if (overlapWarning != null) {
+            return overlapWarning;
+        }
 
         return "Activity added to " + tripName + ":\n\n" + a + "\n";
     }
-
 }
