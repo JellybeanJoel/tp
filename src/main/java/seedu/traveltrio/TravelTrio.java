@@ -13,43 +13,28 @@ import seedu.traveltrio.command.budget.BudgetSummaryCommand;
 import seedu.traveltrio.model.trip.Trip;
 import seedu.traveltrio.model.trip.TripList;
 
-import java.util.Scanner;
-
 public class TravelTrio {
     private static final TripList tripList = new TripList();
     private static Trip openTrip = null;
-    private static final Scanner in = new Scanner(System.in);
-    private static final String LOGO =
-            "  _______                   _ _______   _ \n"
-            + " |__   __|                 | |__   __| (_) \n"
-            + "    | |_ __ __ ___   _____ | |  | |_ __ _  ___  \n"
-            + "    | | '__/ _` \\ \\ / / _ \\| |  | | '__| |/ _ \\ \n"
-            + "    | | | | (_| |\\ V /  __/| |  | | |  | | (_) |\n"
-            + "    |_|_|  \\__,_| \\_/ \\___||_|  |_|_|  |_|\\___/ \n";
+    private static final Ui ui = new Ui();
 
     public static void main(String[] args) {
-        System.out.println("Welcome to \n" + LOGO);
-        System.out.println("How can I help you plan today?");
-        System.out.println("Commands: addtrip, listtrip, opentrip, deletetrip, "
-                + "addactivity, listactivity, editactivity, deleteactivity, addbudget, budgetsummary, exit");
+        ui.showWelcomeMessage();
 
         while (true) {
-            System.out.println("> ");
-            String input = in.nextLine().trim();
+            String command = ui.readCommand();
 
-            if (input.equalsIgnoreCase("exit")) {
-                System.out.println("Goodbye! Happy Travels!");
+            if (command.equals("exit")) {
+                ui.showMessage("Goodbye! Happy Travels!");
                 break;
             }
 
             try {
-                String command = input.toLowerCase();
-
                 switch (command) {
                 case "addtrip":
-                    String name = promptField("Trip Name");
-                    String start = promptField("Start Date (YYYY-MM-DD)");
-                    String end = promptField("End Date (YYYY-MM-DD)");
+                    String name = ui.promptField("Trip Name");
+                    String start = ui.promptField("Start Date (YYYY-MM-DD)");
+                    String end = ui.promptField("End Date (YYYY-MM-DD)");
                     System.out.println(new AddTripCommand(tripList, name, start, end).execute());
                     break;
 
@@ -59,7 +44,7 @@ public class TravelTrio {
 
                 case "opentrip":
                     System.out.println(new ListTripCommand(tripList).execute());
-                    int idx = promptInt("Enter the number of the trip to open");
+                    int idx = ui.promptInt("Enter the number of the trip to open");
                     openTrip = tripList.get(idx - 1);
                     assert openTrip != null;
                     System.out.println(new OpenTripCommand(tripList, idx).execute());
@@ -67,7 +52,7 @@ public class TravelTrio {
 
                 case "deletetrip":
                     System.out.println(new ListTripCommand(tripList).execute());
-                    int tripIdx = promptInt("Enter the number of the trip to delete");
+                    int tripIdx = ui.promptInt("Enter the number of the trip to delete");
                     System.out.println(new DeleteTripCommand(tripList, tripIdx).execute());
                     // If the open trip is the one deleted, reset opentrip
                     if (openTrip != null && !tripList.contains(openTrip)) {
@@ -78,11 +63,22 @@ public class TravelTrio {
 
                 case "addactivity":
                     ensureTripOpen();
-                    String title = promptField("Activity Title");
-                    String location = promptField("Location");
-                    String date = promptField("Date (YYYY-MM-DD)");
-                    String startTime = promptField("Start Time (HH:MM)");
-                    String endTime = promptField("End Time (HH:MM)");
+
+                    String tripStartDate = openTrip.getStartDate();
+                    String tripEndDate = openTrip.getEndDate();
+
+                    String title = ui.promptField("Activity Title");
+                    String location = ui.promptField("Location");
+                    String date = ui.promptField("Date (YYYY-MM-DD)");
+
+                    if (date.compareTo(tripStartDate) < 0 || date.compareTo(tripEndDate) > 0) {
+                        System.out.println("Error. Activity date (" + date + ") " + "is outside of your trip dates.");
+                        System.out.println("Your trip is from " + tripStartDate + " to " + tripEndDate + ".");
+                        break;
+                    }
+
+                    String startTime = ui.promptField("Start Time (HH:MM)");
+                    String endTime = ui.promptField("End Time (HH:MM)");
                     System.out.println(new AddActivityCommand(openTrip.getActivities(),
                             title, location, date, startTime, endTime)
                             .execute(openTrip.getName()));
@@ -96,13 +92,13 @@ public class TravelTrio {
                 case "editactivity":
                     ensureTripOpen();
                     System.out.println(new ListActivityCommand(openTrip.getActivities()).execute(openTrip.getName()));
-                    int activityIdx = promptInt("Enter the number of the activity to edit");
+                    int activityIdx = ui.promptInt("Enter the number of the activity to edit");
                     System.out.println("Leave any field blank to keep current values.");
-                    String newTitle = promptField("New Title");
-                    String newLocation = promptField("New Location");
-                    String newDate = promptField("New Date (YYYY-MM-DD)");
-                    String newStartTime = promptField("New Start Time (HH:MM)");
-                    String newEndTime = promptField("New End Time (HH:MM)");
+                    String newTitle = ui.promptField("New Title");
+                    String newLocation = ui.promptField("New Location");
+                    String newDate = ui.promptField("New Date (YYYY-MM-DD)");
+                    String newStartTime = ui.promptField("New Start Time (HH:MM)");
+                    String newEndTime = ui.promptField("New End Time (HH:MM)");
                     System.out.println(new EditActivityCommand(openTrip.getActivities(),
                             activityIdx, newTitle, newLocation, newDate, newStartTime, newEndTime)
                             .execute(openTrip.getName()));
@@ -112,11 +108,11 @@ public class TravelTrio {
                 case "deleteactivity":
                     ensureTripOpen();
                     System.out.println(new ListActivityCommand(openTrip.getActivities()).execute(openTrip.getName()));
-                    int actIdx = promptInt("Enter the number of the activity to delete");
+                    int actIdx = ui.promptInt("Enter the number of the activity to delete");
                     System.out.println(new DeleteActivityCommand(openTrip.getActivities(), actIdx)
                             .execute(openTrip.getName()));
                     break;
-                
+
                 case "addbudget":
                     ensureTripOpen();
                     if (openTrip.getActivities().isEmpty()) {
@@ -124,8 +120,8 @@ public class TravelTrio {
                         break;
                     }
                     System.out.println(new ListActivityCommand(openTrip.getActivities()).execute(openTrip.getName()));
-                    int budgetActivityIdx = promptInt("Enter the number of the activity to add a budget for. ");
-                    double budgetAmount = promptDouble("Enter budget amount ($)");
+                    int budgetActivityIdx = ui.promptInt("Enter the number of the activity to add a budget for. ");
+                    double budgetAmount = ui.promptDouble("Enter budget amount ($)");
                     System.out.println(new AddBudgetCommand(openTrip.getBudgets(),
                             openTrip.getActivities(), openTrip.getActivities().get(budgetActivityIdx - 1), budgetAmount)
                             .execute());
@@ -139,51 +135,14 @@ public class TravelTrio {
                 default:
                     System.out.println("Unknown command. Available commands: addtrip, listtrip, "
                             + "opentrip, deletetrip, addactivity, listactivity, "
-                            + "editactivity, deleteactivity, addbudget, budgetsummary, exit"); 
+                            + "editactivity, deleteactivity, addbudget, budgetsummary, exit");
                 }
             } catch (Exception e){
                 System.out.println("Error. " + e.getMessage());
             }
-
-        }
-
-    }
-
-    private static String promptField(String label) {
-        while (true) {
-            System.out.print(label + ": ");
-            String input = in.nextLine().trim();
-            if (!input.isEmpty()) {
-                return input;
-            }
-            System.out.println("Input cannot be empty. Please try again.");
-        }
-
-    }
-
-    private static int promptInt(String label) {
-        while (true) {
-            System.out.print(label + ": ");
-            String input = in.nextLine().trim();
-            try {
-                return Integer.parseInt(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid number. Please enter a valid integer.");
-            }
         }
     }
 
-    private static double promptDouble(String label) {
-        while (true) {
-            System.out.print(label + ": ");
-            String input = in.nextLine().trim();
-            try {
-                return Double.parseDouble(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid number. Please enter a valid decimal number.");
-            }
-        }
-    }
 
     private static void ensureTripOpen() {
         if (TravelTrio.openTrip == null) {

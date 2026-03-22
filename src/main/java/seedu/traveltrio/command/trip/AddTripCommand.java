@@ -19,13 +19,13 @@ public class AddTripCommand extends TripCommand {
     @Override
     public String execute() {
         if (name == null || name.isBlank()) {
-            return "❌ Trip name cannot be empty.";
+            return "[ERROR] Trip name cannot be empty.";
         }
         if (startDate == null || endDate == null) {
-            return "❌ Start date and end date must be provided.";
+            return "[ERROR] Start date and end date must be provided.";
         }
         if (startDate.compareTo(endDate) > 0) {
-            return "❌ Start date must not be later than end date.";
+            return "[ERROR] Start date must not be later than end date.";
         }
 
         assert tripList != null : "tripList should be initialized before calling execute()";
