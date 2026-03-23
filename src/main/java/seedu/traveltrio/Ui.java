@@ -26,7 +26,8 @@ public class Ui {
         System.out.println("Welcome to \n" + LOGO);
         System.out.println("How can I help you plan today?");
         System.out.println("Commands: addtrip, listtrip, opentrip, deletetrip, "
-                + "addactivity, listactivity, editactivity, deleteactivity, addbudget, budgetsummary, help, exit");
+                + "addactivity, listactivity, editactivity, deleteactivity, addbudget, " +
+                "budgetsummary, setexpense, listexpense, help, exit");
     }
 
     public String promptField(String label) {

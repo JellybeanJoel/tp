@@ -6,6 +6,7 @@ import seedu.traveltrio.command.activity.EditActivityCommand;
 import seedu.traveltrio.command.activity.ListActivityCommand;
 import seedu.traveltrio.command.finance.budget.AddBudgetCommand;
 import seedu.traveltrio.command.finance.budget.BudgetSummaryCommand;
+import seedu.traveltrio.command.finance.expense.ListExpenseCommand;
 import seedu.traveltrio.command.finance.expense.SetExpenseCommand;
 import seedu.traveltrio.command.trip.AddTripCommand;
 import seedu.traveltrio.command.trip.DeleteTripCommand;
@@ -61,6 +62,9 @@ public class CommandProcessor {
                 break;
             case "setexpense":
                 handleSetExpense();
+                break;
+            case "listexpense":
+                handleListExpense();
                 break;
             case "help":
                 handleHelp();
@@ -144,6 +148,21 @@ public class CommandProcessor {
         ).execute();
 
         ui.showMessage(successMessage);
+    }
+
+    private void handleListExpense() throws TravelTrioException {
+        ensureTripOpen();
+        if (openTrip.getActivities().isEmpty()){
+            ui.showMessage("You have not create any activities for your trip. No expenses to list.");
+            return;
+        }
+        if (openTrip.getBudgets().isEmpty()){
+            ui.showMessage("You have not create any budget for your activities yet.");
+            return;
+        }
+        String resultString = new ListExpenseCommand(openTrip).execute();
+
+        ui.showMessage(resultString);
     }
 
     private void handleDeleteActivity() throws TravelTrioException {

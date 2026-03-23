@@ -5,10 +5,12 @@ import seedu.traveltrio.model.activity.Activity;
 import seedu.traveltrio.model.budget.BudgetList;
 
 public class SetExpenseCommand extends ExpenseCommand{
+    private final Activity activity;
     private final double amount;
     public SetExpenseCommand(BudgetList budgetList, ActivityList activityList,
                              Activity activity, double amount){
-        super(budgetList, activityList, activity);
+        super(budgetList, activityList);
+        this.activity = activity;
         this.amount = amount;
     }
 

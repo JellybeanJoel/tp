@@ -46,4 +46,8 @@ public class BudgetList {
         Budget budget = budgets.get(activity);
         budget.setExpense(expense);
     }
+
+    public boolean isEmpty() {
+        return budgets.isEmpty();
+    }
 }
