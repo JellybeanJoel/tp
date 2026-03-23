@@ -29,7 +29,7 @@ public class Budget {
         return totalBudget - amountSpent;
     }
 
-    public void addExpense(double amount) throws TravelTrioException {
+    public void setExpense(double amount) throws TravelTrioException {
         if (amount < 0) {
             throw new TravelTrioException("Expense amount cannot be negative.");
         }

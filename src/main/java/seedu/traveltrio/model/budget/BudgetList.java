@@ -2,6 +2,8 @@ package seedu.traveltrio.model.budget;
 
 import java.util.Map;
 import java.util.HashMap;
+
+import seedu.traveltrio.TravelTrioException;
 import seedu.traveltrio.model.activity.Activity;
 
 public class BudgetList {
@@ -33,5 +35,15 @@ public class BudgetList {
 
     public Map<Activity, Budget> getBudgets() {
         return budgets;
+    }
+
+    public void setExpense(Activity activity, double expense) throws TravelTrioException {
+        assert activity != null : "Activity should not be null";
+        if (!budgets.containsKey(activity)){
+            throw new TravelTrioException("You must add a budget for this activity first.");
+        }
+        // get budget object of the activity
+        Budget budget = budgets.get(activity);
+        budget.setExpense(expense);
     }
 }
