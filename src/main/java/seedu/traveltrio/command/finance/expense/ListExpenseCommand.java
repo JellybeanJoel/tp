@@ -5,7 +5,6 @@ import seedu.traveltrio.model.budget.Budget;
 import seedu.traveltrio.model.trip.Trip;
 
 public class ListExpenseCommand extends ExpenseCommand {
-    StringBuilder sb = new StringBuilder();
 
     protected Trip trip;
 
