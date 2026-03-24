@@ -20,6 +20,10 @@ import seedu.traveltrio.model.trip.TripList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+/**
+ * Handles the logic for routing user commands to their respective actions.
+ * Maintains the state of the currently opened trip.
+ */
 public class CommandProcessor {
     private static final Logger logger = Logger.getLogger(CommandProcessor.class.getName());
 
@@ -27,11 +31,23 @@ public class CommandProcessor {
     private final Ui ui;
     private Trip openTrip = null;
 
+    /**
+     * Constructs a CommandProcessor with a shared trip list and UI.
+     *
+     * @param tripList The global list of trips.
+     * @param ui User interface for interaction.
+     */
     public CommandProcessor(TripList tripList, Ui ui) {
         this.tripList = tripList;
         this.ui = ui;
     }
 
+    /**
+     * Main entry point for command execution.
+     * Routes command string to the specific handler methods.
+     *
+     * @param command The raw command entered by user.
+     */
     public void process(String command) {
         logger.log(Level.INFO, "Processing command: {0}", command);
         try {
@@ -156,6 +172,7 @@ public class CommandProcessor {
         ui.showMessage(successMessage);
     }
 
+
     private void handleListExpense() throws TravelTrioException {
         ensureTripOpen();
         if (openTrip.getActivities().isEmpty()){
@@ -203,6 +220,13 @@ public class CommandProcessor {
         ui.showMessageWithDivider(new ListActivityCommand(openTrip.getActivities()).execute(openTrip.getName()));
     }
 
+    /**
+     * Guides user to input details to add an activity to a certain trip.
+     * Checks that user input is valid.
+     * Validates that date is within the trip date.
+     *
+     * @throws TravelTrioException if date is not within the trip dates
+     */
     private void handleAddActivity() throws TravelTrioException {
         ensureTripOpen();
 
@@ -237,6 +261,11 @@ public class CommandProcessor {
         }
     }
 
+    /**
+     * Sets a specific trip as the active 'open' trip for activity and budget management.
+     *
+     * @throws TravelTrioException if no trips exist in the list.
+     */
     private void handleOpenTrip() throws TravelTrioException {
         if (tripList.isEmpty()) {
             throw new TravelTrioException("No trips found. Use 'addtrip' to add one!");
@@ -272,6 +301,10 @@ public class CommandProcessor {
         ui.showMessage(new HelpCommand().execute());
     }
 
+    /**
+     * Check to ensure a trip is open before performing trip-specific commands.
+     * @throws TravelTrioException if openTrip is null.
+     */
     private void ensureTripOpen() throws TravelTrioException {
         if (this.openTrip == null) {
             throw new TravelTrioException("You need to open a trip first. (Use 'opentrip')");
