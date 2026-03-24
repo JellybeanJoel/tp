@@ -7,7 +7,9 @@ import seedu.traveltrio.model.trip.TripList;
  * This class initializes core components and runs the main command loop.
  */
 public class TravelTrio {
-    private static final TripList tripList = new TripList();
+    private static final String DATA_FILE_PATH = "./data/traveltrio.txt";
+    private static final Storage storage = new Storage(DATA_FILE_PATH);
+    private static final TripList tripList = storage.load();
     private static final Ui ui = new Ui();
     private static final CommandProcessor processor = new CommandProcessor(tripList, ui);
 
@@ -18,21 +20,37 @@ public class TravelTrio {
      * @param args Command line arguments passed at execution.
      */
     public static void main(String[] args) {
+        assert DATA_FILE_PATH != null : "Configuration Error: DATA_FILE_PATH is null.";
+
         ui.showWelcomeMessage();
+
+        if (tripList.isEmpty()) {
+            ui.showMessage("No previous data found. Starting a new journey!");
+        } else {
+            ui.showMessage("Loaded " + tripList.size() + " trips from memory.");
+        }
 
         while (true) {
             String command = ui.readCommand();
 
             if (command.equals("exit")) {
-                ui.showMessage("Goodbye! Happy Travels!");
+                handleExit();
                 break;
             }
 
-            processor.process(command);
+            try {
+                processor.process(command);
+                storage.save(tripList);
+
+            } catch (Exception e) {
+                ui.showError("Something went wrong: " + e.getMessage());
+            }
         }
     }
 
-
+    private static void handleExit() {
+        ui.showMessage("Saving your travels...");
+        storage.save(tripList);
+        ui.showMessage("Goodbye! Happy Travels!");
+    }
 }
-
-
