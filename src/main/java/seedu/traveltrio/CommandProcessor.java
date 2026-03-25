@@ -17,17 +17,39 @@ import seedu.traveltrio.command.others.HelpCommand;
 import seedu.traveltrio.model.trip.Trip;
 import seedu.traveltrio.model.trip.TripList;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
+/**
+ * Handles the logic for routing user commands to their respective actions.
+ * Maintains the state of the currently opened trip.
+ */
 public class CommandProcessor {
+    private static final Logger logger = Logger.getLogger(CommandProcessor.class.getName());
+
     private final TripList tripList;
     private final Ui ui;
     private Trip openTrip = null;
 
+    /**
+     * Constructs a CommandProcessor with a shared trip list and UI.
+     *
+     * @param tripList The global list of trips.
+     * @param ui User interface for interaction.
+     */
     public CommandProcessor(TripList tripList, Ui ui) {
         this.tripList = tripList;
         this.ui = ui;
     }
 
+    /**
+     * Main entry point for command execution.
+     * Routes command string to the specific handler methods.
+     *
+     * @param command The raw command entered by user.
+     */
     public void process(String command) {
+        logger.log(Level.INFO, "Processing command: {0}", command);
         try {
             switch (command) {
             case "addtrip":
@@ -150,6 +172,7 @@ public class CommandProcessor {
         ui.showMessage(successMessage);
     }
 
+
     private void handleListExpense() throws TravelTrioException {
         ensureTripOpen();
         if (openTrip.getActivities().isEmpty()){
@@ -197,6 +220,13 @@ public class CommandProcessor {
         ui.showMessageWithDivider(new ListActivityCommand(openTrip.getActivities()).execute(openTrip.getName()));
     }
 
+    /**
+     * Guides user to input details to add an activity to a certain trip.
+     * Checks that user input is valid.
+     * Validates that date is within the trip date.
+     *
+     * @throws TravelTrioException if date is not within the trip dates
+     */
     private void handleAddActivity() throws TravelTrioException {
         ensureTripOpen();
 
@@ -231,6 +261,11 @@ public class CommandProcessor {
         }
     }
 
+    /**
+     * Sets a specific trip as the active 'open' trip for activity and budget management.
+     *
+     * @throws TravelTrioException if no trips exist in the list.
+     */
     private void handleOpenTrip() throws TravelTrioException {
         if (tripList.isEmpty()) {
             throw new TravelTrioException("No trips found. Use 'addtrip' to add one!");
@@ -238,8 +273,10 @@ public class CommandProcessor {
 
         printTripList();
         int idx = ui.promptInt("Enter the number of the trip to open");
+        assert idx > 0 : "UI should have validated that idx is positive";
         openTrip = tripList.get(idx - 1);
         assert openTrip != null;
+        logger.log(Level.INFO, "Trip opened: {0}", openTrip.getName());
         ui.showMessage(new OpenTripCommand(tripList, idx).execute());
     }
 
@@ -248,9 +285,15 @@ public class CommandProcessor {
     }
 
     private void handleAddTrip() throws TravelTrioException {
+        logger.log(Level.INFO, "Entering handleAddTrip()");
         String name = ui.promptField("Trip Name");
         String start = ui.promptField("Start Date (YYYY-MM-DD)");
         String end = ui.promptField("End Date (YYYY-MM-DD)");
+
+        assert !name.isEmpty() && !start.isEmpty() && !end.isEmpty() : "UI returned empty fields";
+
+        logger.log(Level.INFO, "Successfully added trip: {0}", name);
+
         ui.showMessageWithDivider(new AddTripCommand(tripList, name, start, end).execute());
     }
 
@@ -258,6 +301,10 @@ public class CommandProcessor {
         ui.showMessage(new HelpCommand().execute());
     }
 
+    /**
+     * Check to ensure a trip is open before performing trip-specific commands.
+     * @throws TravelTrioException if openTrip is null.
+     */
     private void ensureTripOpen() throws TravelTrioException {
         if (this.openTrip == null) {
             throw new TravelTrioException("You need to open a trip first. (Use 'opentrip')");

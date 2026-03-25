@@ -15,6 +15,14 @@ public class BudgetList {
         this.totalTripBudget = 0;
     }
 
+    public double getTotalRemainingTripBudget() {
+        double totalRemaining = 0;
+        for (Budget b : budgets.values()) {
+            totalRemaining += b.getRemainingBudget();
+        }
+        return totalRemaining;
+    }
+
     public void addBudget(Activity activity, Budget budget) {
         budgets.put(activity, budget);
         totalTripBudget += budget.getTotalBudget();

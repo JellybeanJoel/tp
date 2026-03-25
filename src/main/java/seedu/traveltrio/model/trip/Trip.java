@@ -1,6 +1,8 @@
 package seedu.traveltrio.model.trip;
 
+import seedu.traveltrio.model.activity.Activity;
 import seedu.traveltrio.model.activity.ActivityList;
+import seedu.traveltrio.model.budget.Budget;
 import seedu.traveltrio.model.budget.BudgetList;
 
 public class Trip {
@@ -18,6 +20,47 @@ public class Trip {
         this.activities = new ActivityList(this);
         this.budgets = new BudgetList();
         this.isOpen = false;
+    }
+
+    public String toFileFormat() {
+        StringBuilder sb = new StringBuilder();
+        double totalBudget = budgets.getTotalTripBudget();
+        double remainingBudget = budgets.getTotalRemainingTripBudget();
+
+        // Add trip details
+        sb.append("***************************************************************************\n");
+        sb.append(String.format("Trip: %s | From: %s | To: %s | \nTotal Budget: %.2f | Remaining Budget: %.2f \n",
+                name, startDate, endDate, totalBudget, remainingBudget));
+        sb.append("***************************************************************************\n");
+
+        String lastDate = "";
+
+        for (int i = 0; i < activities.size(); i++) {
+            Activity act = activities.get(i);
+            String currentDate = act.getDate();
+
+            // Day header if the date has changed
+            if (!currentDate.equals(lastDate)) {
+                sb.append("\n=== Date: ").append(currentDate).append(" ===\n");
+                sb.append("---------------------------------------------------------------------------\n");
+                lastDate = currentDate;
+            }
+
+            // Add activity details
+            sb.append("Title: ").append(act.getName()).append("\n");
+            sb.append("    Location: ").append(act.getLocation()).append("\n");
+            sb.append("    Start Time: ").append(act.getStart()).append("\n");
+            sb.append("    End Time:   ").append(act.getEnd()).append("\n");
+
+            // Add budget details
+            Budget b = budgets.getBudget(act);
+            if (b != null) {
+                sb.append(String.format("      Budget set: %.2f\n", b.getTotalBudget()));
+                sb.append(String.format("      Actual Expense: %.2f\n", b.getAmountSpent()));
+            }
+            sb.append("---------------------------------------------------------------------------\n");
+        }
+        return sb.toString();
     }
 
     public String getName() {

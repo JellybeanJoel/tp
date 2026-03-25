@@ -8,5 +8,7 @@ Welcome to
 
 How can I help you plan today?
 Commands: addtrip, listtrip, opentrip, deletetrip, addactivity, listactivity, editactivity, deleteactivity, addbudget, budgetsummary, setexpense, listexpense, help, exit
+No previous data found. Starting a new journey!
 > 
+Saving your travels...
 Goodbye! Happy Travels!
