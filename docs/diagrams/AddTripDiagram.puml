@@ -1,0 +1,35 @@
+@startuml
+actor User
+participant TravelTrio
+participant Ui
+participant CommandProcessor
+participant TripList
+participant AddTripCommand
+participant Trip
+
+User -> TravelTrio : run app
+User -> Ui : enter "addtrip"
+Ui --> TravelTrio : "addtrip"
+TravelTrio -> CommandProcessor : process("addtrip")
+
+CommandProcessor -> Ui : promptField("Trip Name")
+Ui --> CommandProcessor : name
+CommandProcessor -> Ui : promptField("Start Date (YYYY-MM-DD)")
+Ui --> CommandProcessor : startDate
+CommandProcessor -> Ui : promptField("End Date (YYYY-MM-DD)")
+Ui --> CommandProcessor : endDate
+
+CommandProcessor -> AddTripCommand : new AddTripCommand(tripList, name, startDate, endDate)
+CommandProcessor -> AddTripCommand : execute()
+
+AddTripCommand -> AddTripCommand : validate name not empty
+AddTripCommand -> AddTripCommand : validate dates not null
+AddTripCommand -> AddTripCommand : validate startDate <= endDate
+
+AddTripCommand -> Trip : new Trip(name, startDate, endDate)
+AddTripCommand -> TripList : add(trip)
+
+AddTripCommand --> CommandProcessor : success message
+CommandProcessor -> Ui : showMessageWithDivider(message)
+
+@enduml
