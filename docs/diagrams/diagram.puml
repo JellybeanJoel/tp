@@ -1,0 +1,46 @@
+@startuml
+actor User
+participant TravelTrio
+participant Ui
+participant CommandProcessor
+participant Trip
+participant AddActivityCommand
+participant ActivityList
+participant Activity
+
+User -> TravelTrio : run app
+User -> Ui : enter "addactivity"
+Ui --> TravelTrio : "addactivity"
+TravelTrio -> CommandProcessor : process("addactivity")
+
+CommandProcessor -> CommandProcessor : ensureTripOpen()
+CommandProcessor -> Trip : getStartDate()
+CommandProcessor -> Trip : getEndDate()
+
+CommandProcessor -> Ui : promptField("Activity Title")
+Ui --> CommandProcessor : title
+CommandProcessor -> Ui : promptField("Location")
+Ui --> CommandProcessor : location
+CommandProcessor -> Ui : promptField("Date (YYYY-MM-DD)")
+Ui --> CommandProcessor : date
+
+CommandProcessor -> CommandProcessor : validate date within trip range
+
+CommandProcessor -> Ui : promptField("Start Time (HH:MM)")
+Ui --> CommandProcessor : startTime
+CommandProcessor -> Ui : promptField("End Time (HH:MM)")
+Ui --> CommandProcessor : endTime
+
+CommandProcessor -> Trip : getActivities()
+Trip --> CommandProcessor : activityList
+CommandProcessor -> Trip : getName()
+Trip --> CommandProcessor : tripName
+
+CommandProcessor -> AddActivityCommand : new AddActivityCommand(activityList, title, location, date, startTime, endTime)
+CommandProcessor -> AddActivityCommand : execute(tripName)
+AddActivityCommand -> Activity : new Activity(name, location, date, start, end)
+AddActivityCommand -> ActivityList : add(activity)
+ActivityList --> AddActivityCommand : overlapWarning / null
+AddActivityCommand --> CommandProcessor : success message
+CommandProcessor -> Ui : showMessageWithDivider(message)
+@enduml
