@@ -109,7 +109,10 @@ public class Trip {
     }
 
     public String formatForList() {
-        String result = name + "\n";
+        boolean hasSetBudget = !budgets.getBudgets().isEmpty();
+        String totalSpentText = "           (Total Spent: " + String.format("$%.2f", budgets.getTotalTripExpense())+")";
+
+        String result = name + (hasSetBudget ? totalSpentText : "")+ "\n";
         result += "   Start: " + startDate + "\n";
         result += "   End:   " + endDate;
         return result;

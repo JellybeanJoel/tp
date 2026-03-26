@@ -217,7 +217,7 @@ public class CommandProcessor {
     }
 
     private void printActivityList() throws TravelTrioException {
-        ui.showMessageWithDivider(new ListActivityCommand(openTrip.getActivities()).execute(openTrip.getName()));
+        ui.showMessage(new ListActivityCommand(openTrip.getActivities()).execute(openTrip.getName()));
     }
 
     /**

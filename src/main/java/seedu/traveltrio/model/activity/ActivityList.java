@@ -20,7 +20,7 @@ public class ActivityList {
         for(Activity existing : activities){
             if (a.overlapsWith(existing)) {
                 throw new TravelTrioException("Warning: This activity overlaps with an existing activity:\n\n"
-                        + existing.formatForList() + "\n\n"
+                        + existing.formatForDisplay() + "\n\n"
                         + "Please edit the existing activity or choose a different time.");
             }
         }

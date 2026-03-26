@@ -15,16 +15,19 @@ public class ListActivityCommand extends ActivityCommand {
         }
 
         StringBuilder sb = new StringBuilder();
+
         sb.append("Itinerary for ").append(tripName).append(":\n");
 
-        for (int i = 0; i < activityList.size(); i++) {
-            sb.append("\n")
-                    .append(i + 1)
-                    .append(". ")
-                    .append(activityList.get(i).formatForList())
-                    .append("\n");
-        }
+        String header = String.format("%-3s | %-25s | %-15s | %-12s | %-18s",
+                "No", "Activity", "Location", "Date", "Time");
+        int dividerLength = header.length();
 
+        sb.append(header).append("\n");
+        sb.append("-".repeat(dividerLength)).append("\n");
+
+        for (int i = 0; i < activityList.size(); i++) {
+            sb.append(activityList.get(i).formatForTableRow(i + 1)).append("\n");
+        }
         return sb.toString();
 
     }
