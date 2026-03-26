@@ -56,7 +56,7 @@ public class Trip {
             Budget b = budgets.getBudget(act);
             if (b != null) {
                 sb.append(String.format("      Budget set: %.2f\n", b.getTotalBudget()));
-                sb.append(String.format("      Actual Expense: %.2f\n", b.getAmountSpent()));
+                sb.append(String.format("      Actual Expense: %.2f\n", b.getActualExpense()));
             }
             sb.append("---------------------------------------------------------------------------\n");
         }
@@ -109,7 +109,10 @@ public class Trip {
     }
 
     public String formatForList() {
-        String result = name + "\n";
+        boolean hasSetBudget = !budgets.getBudgets().isEmpty();
+        String totalSpentText = "           (Total Spent: " + String.format("$%.2f", budgets.getTotalTripExpense())+")";
+
+        String result = name + (hasSetBudget ? totalSpentText : "")+ "\n";
         result += "   Start: " + startDate + "\n";
         result += "   End:   " + endDate;
         return result;

@@ -88,7 +88,7 @@ public class Storage {
         double spent = Double.parseDouble(expenseLine.split(": ")[1].trim());
 
         Budget budget = new Budget(total, lastActivity);
-        budget.setExpense(spent);
+        budget.setActualExpense(spent);
 
         currentTrip.getBudgets().addBudget(lastActivity, budget);
     }

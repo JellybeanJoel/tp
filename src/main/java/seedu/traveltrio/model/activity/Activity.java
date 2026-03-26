@@ -125,12 +125,23 @@ public class Activity {
         return result;
     }
 
-    public String formatForList() {
+    public String formatForDisplay() {
         String result = name + "\n";
         result += "   Location: " + (location != null ? location : "---") + "\n";
         result += "   Date: " + (date != null ? date : "---") + "\n";
         result += "   Time: " + (start == null || end == null ? "---" : (start + " to " + end));
 
         return result;
+    }
+
+    public String formatForTableRow(int index) {
+        String activityName = name != null ? name : "---";
+        String activityLocation = location != null ? location : "---";
+        String activityDate = date != null ? date.format(DATE_FORMATTER) : "---";
+        String activityTime = (start == null || end == null)
+                ? "---"
+                : start.format(TIME_FORMATTER) + " to " + end.format(TIME_FORMATTER);
+        return String.format("%-3d | %-25s | %-15s | %-12s | %-18s",
+                index, activityName, activityLocation, activityDate, activityTime);
     }
 }
