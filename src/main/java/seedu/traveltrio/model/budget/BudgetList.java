@@ -12,11 +12,13 @@ public class BudgetList {
     private double totalTripBudget;
     private double totalTripExpense;
     private Double dailySpendingLimit;
+    private double exchangeRate;
 
     public BudgetList() {
         this.budgets = new HashMap<>();
         this.totalTripBudget = 0;
         this.dailySpendingLimit = null; /// no limit set
+        this.exchangeRate = 1.0; // Default exchange rate
     }
 
     public double getTotalRemainingTripBudget() {
@@ -57,6 +59,14 @@ public class BudgetList {
 
     public Map<Activity, Budget> getBudgets() {
         return budgets;
+    }
+
+    public double getExchangeRate() {
+        return exchangeRate;
+    }
+
+    public void setExchangeRate(double exchangeRate) {
+        this.exchangeRate = exchangeRate;
     }
 
     public void setExpense(Activity activity, double newExpense) throws TravelTrioException {

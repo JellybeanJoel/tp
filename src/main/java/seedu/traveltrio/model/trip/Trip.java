@@ -26,11 +26,12 @@ public class Trip {
         StringBuilder sb = new StringBuilder();
         double totalBudget = budgets.getTotalTripBudget();
         double remainingBudget = budgets.getTotalRemainingTripBudget();
+        double exchangeRate = budgets.getExchangeRate();
 
         // Add trip details
         sb.append("***************************************************************************\n");
-        sb.append(String.format("Trip: %s | From: %s | To: %s | \nTotal Budget: %.2f | Remaining Budget: %.2f \n",
-                name, startDate, endDate, totalBudget, remainingBudget));
+        sb.append(String.format("Trip: %s | From: %s | To: %s | \nTotal Budget: %.2f | Remaining Budget: %.2f | Exchange Rate: %.2f \n",
+                name, startDate, endDate, totalBudget, remainingBudget, exchangeRate));
         sb.append("***************************************************************************\n");
 
         String lastDate = "";

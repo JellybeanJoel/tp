@@ -6,6 +6,7 @@ import seedu.traveltrio.command.activity.EditActivityCommand;
 import seedu.traveltrio.command.activity.ListActivityCommand;
 import seedu.traveltrio.command.finance.budget.SetBudgetCommand;
 import seedu.traveltrio.command.finance.budget.BudgetSummaryCommand;
+import seedu.traveltrio.command.finance.budget.SetCurrencyCommand;
 import seedu.traveltrio.command.finance.expense.ListExpenseCommand;
 import seedu.traveltrio.command.finance.expense.SetDailyLimitCommand;
 import seedu.traveltrio.command.finance.expense.SetExpenseCommand;
@@ -80,6 +81,9 @@ public class CommandProcessor {
             case "setbudget":
                 handleSetBudget();
                 break;
+            case "setcurrency":
+                handleSetCurrency();
+                break;
             case "budgetsummary":
                 handleBudgetSummary();
                 break;
@@ -111,7 +115,7 @@ public class CommandProcessor {
         ui.showError("Unknown command.\n"
                 + "Available commands: addtrip, listtrip, opentrip, deletetrip,\n"
                 + "addactivity, listactivity, editactivity, deleteactivity,\n"
-                + "addbudget, setexpense, budgetsummary, help, exit");
+                + "setbudget, setexpense, setcurrency, budgetsummary, help, exit");
     }
 
     private void handleBudgetSummary() throws TravelTrioException {
@@ -131,6 +135,15 @@ public class CommandProcessor {
         ui.showMessage(new SetBudgetCommand(openTrip.getBudgets(),
                 openTrip.getActivities(), openTrip.getActivities().get(budgetActivityIdx - 1), budgetAmount)
                 .execute());
+    }
+
+    private void handleSetCurrency() throws TravelTrioException {
+        ensureTripOpen();
+        double exchangeRate = ui.promptDouble("Current exchange rate is 1 Foreign Currency = " 
+                + openTrip.getBudgets().getExchangeRate() 
+                + " Home Currency.\nEnter the exchange rate (1 Foreign Currency = ? Home Currency)");
+        ui.showMessage(new SetCurrencyCommand(openTrip.getBudgets(),
+                openTrip.getActivities(), null, exchangeRate).execute());
     }
 
     private void handleSetExpense() throws TravelTrioException {
@@ -164,12 +177,15 @@ public class CommandProcessor {
 
         }
 
+        int currencyChoice = ui.promptInt("Is the amount in foreign currency? (1 for Yes, 0 for No)");
+        boolean isForeignCurrency = currencyChoice == 1;
         double actualAmount = ui.promptDouble("Enter amount ($)");
         String successMessage = new SetExpenseCommand(
                 openTrip.getBudgets(),
                 openTrip.getActivities(),
                 openTrip.getActivities().get(activityIdx - 1),
-                actualAmount
+                actualAmount,
+                isForeignCurrency
         ).execute();
 
         ui.showMessage(successMessage);

@@ -7,11 +7,18 @@ import seedu.traveltrio.model.budget.BudgetList;
 public class SetExpenseCommand extends ExpenseCommand{
     private final Activity activity;
     private final double amount;
+    private final boolean isForeignCurrency;
     public SetExpenseCommand(BudgetList budgetList, ActivityList activityList,
-                             Activity activity, double amount){
+                             Activity activity, double amount, boolean isForeignCurrency) {
         super(budgetList, activityList);
         this.activity = activity;
-        this.amount = amount;
+        this.isForeignCurrency = isForeignCurrency;
+        if (isForeignCurrency) {
+            this.amount = amount * budgetList.getExchangeRate();
+        } else {
+            this.amount = amount;
+        }
+
     }
 
     @Override

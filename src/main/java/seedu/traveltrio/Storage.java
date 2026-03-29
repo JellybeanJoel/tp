@@ -55,7 +55,7 @@ public class Storage {
                 }
 
                 if (line.startsWith("Trip:")) {
-                    currentTrip = loadTripDetails(line, trips);
+                    currentTrip = loadTripDetails(fileScanner, line, trips);
                 } else if (line.startsWith("=== Date:")) {
                     currentDate = loadDates(line);
                 } else if (line.startsWith("Title:")) {
@@ -111,7 +111,7 @@ public class Storage {
         return currentDate;
     }
 
-    private static Trip loadTripDetails(String line, TripList trips) {
+    private static Trip loadTripDetails(Scanner fileScanner, String line, TripList trips) {
         Trip currentTrip;
         String[] parts = line.split(" \\| ");
         String name = parts[0].substring(parts[0].indexOf(":") + 1).trim();
@@ -119,6 +119,22 @@ public class Storage {
         String end = parts[2].substring(parts[2].indexOf(":") + 1).trim();
         currentTrip = new Trip(name, start, end);
         trips.add(currentTrip);
+
+        // Read the next line for budget and exchange rate details
+        if (fileScanner.hasNext()) {
+            String budgetLine = fileScanner.nextLine().trim();
+            if (budgetLine.contains("Exchange Rate:")) {
+                String[] budgetParts = budgetLine.split(" \\| ");
+                for (String part : budgetParts) {
+                    if (part.contains("Exchange Rate:")) {
+                        double exchangeRate = Double.parseDouble(part.split(": ")[1].trim());
+                        currentTrip.getBudgets().setExchangeRate(exchangeRate);
+                        break;
+                    }
+                }
+            }
+        }
+
         return currentTrip;
     }
 
