@@ -140,7 +140,7 @@ public class CommandProcessor {
             throw new TravelTrioException("No activities found. Please add an activity before setting a budget.");
         }
         printActivityList();
-        int budgetActivityIdx = ui.promptInt("Enter the index of the activity to add a budget for. ");
+        int budgetActivityIdx = ui.promptInt("Enter the index of the activity to add a budget for");
         double budgetAmount = ui.promptDouble("Enter budget amount ($)");
         ui.showMessage(new SetBudgetCommand(openTrip.getBudgets(),
                 openTrip.getActivities(), openTrip.getActivities().get(budgetActivityIdx - 1), budgetAmount)
@@ -264,15 +264,30 @@ public class CommandProcessor {
 
         String title = ui.promptField("Activity Title");
         String location = ui.promptField("Location");
-        String date = ui.promptField("Date (YYYY-MM-DD)");
+        String date;
 
-        if (date.compareTo(tripStartDate) < 0 || date.compareTo(tripEndDate) > 0) {
-            throw new TravelTrioException("Activity date (" + date + ") " + "is outside of your trip dates. " +
-                    "Your trip is from " + tripStartDate + " to " + tripEndDate + ".");
+        while (true) {
+            date = ui.promptField("Date");
+            if (date.compareTo(tripStartDate) < 0 || date.compareTo(tripEndDate) > 0) {
+                ui.showError("Activity date is outside your trip dates ("
+                        + tripStartDate + " to " + tripEndDate + "). Please enter a valid date.");
+            } else {
+                break;
+            }
         }
 
-        String startTime = ui.promptField("Start Time (HH:MM)");
-        String endTime = ui.promptField("End Time (HH:MM)");
+        String startTime;
+        String endTime;
+
+        while (true) {
+            startTime = ui.promptField("Start Time");
+            endTime = ui.promptField("End Time");
+            if (endTime.compareTo(startTime) < 0) {
+                ui.showError("End time cannot be earlier than start time. Let's try those times again.");
+            } else {
+                break;
+            }
+        }
 
         ui.showMessageWithDivider(new AddActivityCommand(openTrip.getActivities(),
                 title, location, date, startTime, endTime)
@@ -316,8 +331,19 @@ public class CommandProcessor {
     private void handleAddTrip() throws TravelTrioException {
         logger.log(Level.INFO, "Entering handleAddTrip()");
         String name = ui.promptField("Trip Name");
-        String start = ui.promptField("Start Date (YYYY-MM-DD)");
-        String end = ui.promptField("End Date (YYYY-MM-DD)");
+        String start;
+        String end;
+
+        while (true) {
+            start = ui.promptDate("Start Date");
+            end = ui.promptDate("End Date");
+
+            if (start.compareTo(end) > 0) {
+                ui.showError("Start date cannot be later than the end date. Let's try those dates again.");
+            } else {
+                break; // Dates are valid and logical!
+            }
+        }
 
         assert !name.isEmpty() && !start.isEmpty() && !end.isEmpty() : "UI returned empty fields";
 
