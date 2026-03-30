@@ -17,8 +17,6 @@ Given below are my contributions to the project.
 ### Code Contributed
 [RepoSense Link](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=jellybeanjoel&breakdown=true&sort=groupTitle%20dsc&sortWithin=title&since=2026-02-20T00%3A00%3A00&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other&filteredFileName=&tabOpen=true&tabType=authorship&tabAuthor=JellybeanJoel&tabRepo=AY2526S2-CS2113-F09-4%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code~other&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false)
 
-### **Project Management**
-
 ### **Documentation**
 * **User Guide:**
     * Authored a document to illustrate the step-by-step process on how to use the application.
