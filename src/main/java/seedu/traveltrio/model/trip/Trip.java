@@ -6,6 +6,10 @@ import seedu.traveltrio.model.budget.Budget;
 import seedu.traveltrio.model.budget.BudgetList;
 
 public class Trip {
+    public static final String TRIP_DIVIDER_LINE =
+            "***************************************************************************";
+    public static final String ACTIVITY_DIVIDER_LINE =
+            "---------------------------------------------------------------------------";
     private String name;
     private String startDate;
     private String endDate;
@@ -29,10 +33,10 @@ public class Trip {
         double exchangeRate = budgets.getExchangeRate();
 
         // Add trip details
-        sb.append("***************************************************************************\n");
+        sb.append(TRIP_DIVIDER_LINE + "\n");
         sb.append(String.format("Trip: %s | From: %s | To: %s | \nTotal Budget: %.2f | Remaining Budget: %.2f "
                 + "| Exchange Rate: %.2f \n", name, startDate, endDate, totalBudget, remainingBudget, exchangeRate));
-        sb.append("***************************************************************************\n");
+        sb.append(TRIP_DIVIDER_LINE + "\n");
 
         String lastDate = "";
 
@@ -43,7 +47,7 @@ public class Trip {
             // Day header if the date has changed
             if (!currentDate.equals(lastDate)) {
                 sb.append("\n=== Date: ").append(currentDate).append(" ===\n");
-                sb.append("---------------------------------------------------------------------------\n");
+                sb.append(ACTIVITY_DIVIDER_LINE + "\n");
                 lastDate = currentDate;
             }
 
@@ -59,7 +63,7 @@ public class Trip {
                 sb.append(String.format("      Budget set: %.2f\n", b.getActivityBudget()));
                 sb.append(String.format("      Actual Expense: %.2f\n", b.getActualExpense()));
             }
-            sb.append("---------------------------------------------------------------------------\n");
+            sb.append(ACTIVITY_DIVIDER_LINE + "\n");
         }
         return sb.toString();
     }

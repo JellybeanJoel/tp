@@ -126,6 +126,7 @@ The feature mainly involves the following classes:
 - Trip — owns the corresponding ActivityList and BudgetList.
 - CommandProcessor — handles the user input, ensures a trip is open, and orchestrates the creation of the command.
 - Ui — handles all interactions with the user, such as prompting for the activity index and budget amount.
+- Storage — handles all saving and loading of txt file, allowing for saving of data across sessions. 
 
 The `SetBudgetCommand` receives the target `BudgetList`, `ActivityList`, the specific `Activity`, and the budget amount.
 When `SetBudgetCommand#execute()` is called, a new `Budget` is created and added to the `BudgetList` for the activity, and a success message is returned.
@@ -151,14 +152,60 @@ If the command input is invalid, or if no trip is currently opened, the command 
 The following sequence diagram shows how an operation to set budget goes:
 <puml src="diagrams/SetBudgetSequenceDiagram.puml" />
 
+### Storage Component
+**Implementation**<br>
+The `Storage` component handles the data persistence of the application. It is responsible for saving the TripList to a 
+local text file and reconstructing those objects when the application restarts.
+
+The feature mainly involves the following classes:
+- `Storage` — The main logic class that manages file I/O operations and hierarchical parsing.
+- `TripList` — The top-level container that is populated during the loading process.
+- `Trip` / `Activity` / `Budget` — Model classes that provide `toFileFormat()` methods to convert objects into storable strings.
+- `Scanner` — Used to parse the text file line-by-line within a try-with-resources block.
+
+The `Storage#load()` method implements a **State-Aware Parser**. Because the text file is hierarchical (Activities belong to Dates, which belong to Trips), 
+the component maintains internal context variables (`currentTrip`, `currentDate`, `lastActivity`) during execution to ensure child objects are linked to the correct parent objects.
+
+Given below is an example usage scenario and how the storage mechanism behaves during the loading phase.
+
+Step 1. The user starts the application. The `Main` class initializes `Storage` with a file path (e.g., `data/traveltrio.txt`) and calls `load()`.
+
+Step 2. `Storage#load()` checks if the file exists. If not, it returns an empty `TripList`. If it exists, it calls the private `parseFileToTripList(file)` method.
+
+Step 3. Inside the parser, a `Scanner` is opened. As it reads the file line-by-line, it detects a **`Trip:`** header and calls `loadTripDetails(...)`. This creates a new `Trip` object and immediately checks the next line for **`Exchange Rate:`** metadata to set the trip's financial context.
+
+Step 4. When a line starting with **`=== Date:`** is found, the `currentDate` string is updated. This acts as a header for all activities that follow.
+
+Step 5. When a **`Title:`** line is found, the parser calls `loadActivityDetails(...)`. This helper method "consumes" the next three lines (Location, Start Time, and End Time) to construct an `Activity` object, which is then added to the `currentTrip`.
+
+Step 6. If a **`Budget set:`** line is found, the parser calls `loadBudgetDetails(...)`. It reads the total budget and actual expenses and links them to the `lastActivity` using an **assertion** to ensure no budget data is orphaned.
+
+Step 7. Once the end of the file is reached, the fully populated `TripList` is returned to the `Main` controller.
+
+If the parser encounters a line it does not recognize (and is not a known summary line like `Total Budget:`), it triggers a `ui.showError` to alert the user of potential file corruption.
+If a line is encountered that does not match any expected prefix or formatting, a `TravelTrioException` is thrown, alerting the user to the specific line that requires manual correction.
+
+**Sequence Diagram:**
+
+The following sequence diagram shows how the `Storage` component interacts with the `Scanner` and `Model` classes to load data:
+![img.png](diagrams/StorageSequenceDiagram.png)
+
 ## Product scope
 ### Target user profile
 
-{Describe the target user profile}
+TravelTrio is built for users who prefer a fast, keyboard-driven interface over a traditional GUI.
+Our core users include:
+- The Organized User — Someone who needs to see all their travel plans in one centralized list and wants to append new activities quickly without navigating complex menus.
+- The Thrifty User — A traveler who is conscious of their budget and wants to track actual spending against planned estimates in real-time.
+- The Tech-Savvy Planner — A user (likely a student or developer) who is comfortable with a Command Line Interface (CLI) and values a lightweight, offline-first application.
+- The Frequent Traveler — Someone managing multiple trips who needs a reliable way to switch between different itineraries and export/import data for backup.
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+TravelTrio provides a high-speed, distraction-free environment for itinerary management. It is intuitive and bridges the gap between a messy notes app and a complex spreadsheet by offering the following benefits:
+- Specific commands to handle trips, activities, and budgets separately but cohesively.
+- Instant calculation of remaining budgets and expenses, specifically catering to the "Thrifty User."
+- Easy sharing of trips through the export/import feature, allowing "Organized Users" to share plans with friends.
 
 ## User Stories
 

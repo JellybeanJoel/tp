@@ -1,0 +1,43 @@
+@startuml
+skinparam Style strictuml
+
+participant ":Main" as Main
+participant ":Storage" as Storage
+participant "trips:TripList" as TripList
+participant ":Scanner" as Scanner
+
+Main -> Storage : load()
+activate Storage
+
+alt file exists
+    Storage -> Storage : parseFileToTripList(file)
+    activate Storage
+
+    ' Fix 1: Points to the BOX
+    Storage -> TripList**
+    Storage -> Scanner**
+
+    loop until end of file
+        Storage -> Scanner : nextLine()
+        activate Scanner
+        Scanner --> Storage : line
+        deactivate Scanner
+
+        alt line starts with "Trip:"
+            Storage -> Storage : loadTripDetails(fileScanner, line, trips)
+        else line starts with "Title:"
+            Storage -> Storage : loadActivityDetails(fileScanner, line, currentDate, currentTrip)
+            Storage -> "currentTrip:Trip" : addActivity(lastActivity)
+        end
+    end
+
+    ' Fix 2: Horizontal return arrow
+    return trips
+    deactivate Storage
+else file does not exist
+    Storage -> TripList** : create()
+end
+
+Storage --> Main : trips
+deactivate Storage
+@enduml
