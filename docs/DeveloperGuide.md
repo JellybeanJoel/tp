@@ -150,7 +150,7 @@ If the command input is invalid, or if no trip is currently opened, the command 
 **Sequence Diagram:**
 
 The following sequence diagram shows how an operation to set budget goes:
-<puml src="diagrams/SetBudgetSequenceDiagram.puml" />
+![img.png](diagrams/SetBudgetSequenceDiagram.png)
 
 ### Storage Component
 **Implementation**<br>
