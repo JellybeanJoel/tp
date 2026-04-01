@@ -10,6 +10,9 @@ Whether you are planning a weekend getaway or a month-long backpacking trip, Tra
 3. Copy the file to the folder you want to use as the home folder for your travel plans.
 4. Open a command terminal (e.g., Command Prompt on Windows, Terminal on macOS), navigate to the folder where you placed the `.jar` file, and run the following command: `java -jar traveltrio.jar`.
 5. You should see the TravelTrio welcome logo. Type `help` and press Enter to see the list of available commands to get started!
+6. The command prompt will display your current working context:
+   - `> ` means no trip is currently open
+   - `[Trip Name] > ` means you are working within that trip
 
 ### Date Format
 - Dates must be entered in `YYYY-MM-DD` format (e.g., `2026-05-01`).
@@ -29,7 +32,9 @@ Unlike traditional CLI apps that force you to type long, complicated command str
     Manage multiple travel plans in one place.
    * Create Trips: Use `addtrip` to define a trip name and its duration. The app automatically validates that your start date occurs before your end date. 
    * Track Multiple Itineraries: View all your saved journeys with `listtrip` and see a high-level spending summary for each.
-   * Focus on a Trip: Use `opentrip` to select a "working" trip. Once a trip is open, all activity and budget commands will apply specifically to that itinerary. 
+   * Focus on a Trip: Use `opentrip` to select a "working" trip. Once a trip is open:
+     - All activity and budget commands will apply specifically to that itinerary  
+     - The command prompt will display the trip name (e.g., `[Japan Trip] >`) for clarity
    * Flexible Data Sharing:
      * Export: Save a specific trip to a formatted `.txt` file using `exporttrip` to share with friends. 
      * Import: Seamlessly merge a trip file shared by another TravelTrio user using `importtrip`.

@@ -23,9 +23,14 @@ public class Ui {
         this.in = new Scanner(System.in);
     }
 
-    public String readCommand() {
-        System.out.println("> ");
-        return in.nextLine().trim().toLowerCase();
+    public String readCommand(String currentTripName) {
+        if (currentTripName == null) {
+            System.out.print("> ");
+        } else {
+            System.out.print("[Opened: " + currentTripName + "] > ");
+        }
+        String input = in.nextLine();
+        return input.trim().toLowerCase();
     }
 
     public void showWelcomeMessage() {

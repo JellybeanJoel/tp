@@ -39,7 +39,7 @@ public class TravelTrio {
         CommandProcessor processor = new CommandProcessor(tripList, ui, storage);
 
         while (true) {
-            String command = ui.readCommand();
+            String command = ui.readCommand(processor.getOpenTripName());
 
             if (command.equals("exit")) {
                 handleExit();
@@ -57,6 +57,7 @@ public class TravelTrio {
     }
 
     private static void handleExit() throws TravelTrioException {
+        System.out.println();
         ui.showMessage("Saving your travels...");
         storage.save(tripList);
         ui.showMessage("Goodbye! Happy Travels!");
