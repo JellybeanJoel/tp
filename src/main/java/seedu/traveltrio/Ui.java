@@ -29,7 +29,8 @@ public class Ui {
         } else {
             System.out.print("[Opened: " + currentTripName + "] > ");
         }
-        return in.nextLine().trim().toLowerCase();
+        String input = in.nextLine();
+        return input.trim().toLowerCase();
     }
 
     public void showWelcomeMessage() {

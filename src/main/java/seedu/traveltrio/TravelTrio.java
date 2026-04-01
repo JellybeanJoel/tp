@@ -57,6 +57,7 @@ public class TravelTrio {
     }
 
     private static void handleExit() throws TravelTrioException {
+        System.out.println();
         ui.showMessage("Saving your travels...");
         storage.save(tripList);
         ui.showMessage("Goodbye! Happy Travels!");
