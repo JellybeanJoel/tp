@@ -81,6 +81,11 @@ Alternatively, to transfer all your trips at once, simply copy the `traveltrio.t
 
 **A:** TravelTrio is forgiving! If you type `2026/05/01` instead of `2026-05-01`, the app will simply tell you the format is invalid and ask you for the date again without losing the rest of the information you already typed.
 
+**Q:** Can I edit the `traveltrio.txt` file manually? 
+
+**A:** Yes, but be careful! The file must be formatted in a certain way so that the data is able to load the next session. 
+You must keep the exact prefixes (like `Trip:` or `Title:`) and avoid adding empty lines.
+
 ## Command Summary
 
 | Category     | Command          | Description                                         |
