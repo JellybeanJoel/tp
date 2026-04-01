@@ -70,9 +70,11 @@ Unlike traditional CLI apps that force you to type long, complicated command str
    * Corruption Protection: The app uses robust internal logging and assertions to ensure that even if you make a mistake, your data remains consistent.
 
 ## Feature Commands
+
 ### 1. Trip Management
-**1.1 Adding a Trip**
-<br>Adds a new trip to user's travel planner
+
+#### 1.1 Adding a Trip
+Adds a new trip to user's travel planner
 * Format: `addtrip`
     * After entering the command, the application will prompt users for inputs:
         * `Trip name`
@@ -94,8 +96,8 @@ Unlike traditional CLI apps that force you to type long, complicated command str
   ```
 <br>
 
-**1.2 Listing all Trips**
-<br>Displays all trips
+#### 1.2 Listing all Trips
+Displays all trips
 * Format: `listtrip`
 
 * Expected result:
@@ -113,8 +115,8 @@ Unlike traditional CLI apps that force you to type long, complicated command str
   ```
 <br>
 
-**1.3 Open a Trip to edit**
-<br>Sets a trip as the active working trip, to allow users to add edit the opened trip's itinerary.
+#### 1.3 Open a Trip to edit
+Sets a trip as the active working trip, to allow users to add edit the opened trip's itinerary.
 
 * Format: `opentrip`
   * After entering the command, the application will prompt users for inputs:
@@ -145,8 +147,8 @@ Unlike traditional CLI apps that force you to type long, complicated command str
 ### 2. Itinerary Management
 *Note: a trip has to be "opened" by the user, in order to perform the following commands*
 
-**2.1 Adding an activity**
-<br>Adds a new activity to the current trip's itinerary*
+#### 2.1 Adding an activity
+Adds a new activity to the current trip's itinerary*
 * Format: `addactivity`
     * After entering the command, the application will prompt the user for the required activity details.
     * Prompt user for inputs:
@@ -176,8 +178,8 @@ Unlike traditional CLI apps that force you to type long, complicated command str
   ```
 <br>
 
-**2.2 Listing all activities (shows itinerary)**
-<br>Displays all activities in the itinerary of the opened trip
+#### 2.2 Listing all activities (shows itinerary)
+Displays all activities in the itinerary of the opened trip
 * Format: `listactivity`
 
 * Expected result:
@@ -190,8 +192,8 @@ Unlike traditional CLI apps that force you to type long, complicated command str
   ```
 <br>
 
-**2.3 Editing an activity**
-<br>Edits one or more fields of an existing activity. Only specified fields are updated; unchanged fields remain as-is.
+#### 2.3 Editing an activity
+Edits one or more fields of an existing activity. Only specified fields are updated; unchanged fields remain as-is.
 * Format: `editactivity`
     * After entering the command, the application will prompt the user for the required activity details.
     * Prompt users for inputs:
@@ -227,8 +229,8 @@ Unlike traditional CLI apps that force you to type long, complicated command str
   ```
 <br>
 
-**2.4 Deleting an activity**
-<br>Removes an activity from the itinerary.
+#### 2.4 Deleting an activity
+Removes an activity from the itinerary.
 * Format: `deleteactivity`
 * After entering the command, the application will prompt the user for the required activity details.
     * Prompt users for inputs:
@@ -258,8 +260,8 @@ Unlike traditional CLI apps that force you to type long, complicated command str
 ### 3. Budget Management
 *Note: budget is assigned for an activity. Thus, the activity has to be created first before setting the activity budget.*
 
-**3.1 Adding a budget for an activity**
-    <br> Records the expected or planned cost of an activity
+#### 3.1 Adding a budget for an activity
+Records the expected or planned cost of an activity
 * Format: `setbudget`
     * After entering the command, the application will prompt the user for inputs:
         * `Enter the index of the activity to add a budget for:`
@@ -284,8 +286,8 @@ Unlike traditional CLI apps that force you to type long, complicated command str
     ```
 <br>
 
-**3.2 Viewing budget summary**
-<br>Displays a comprehensive summary comparing your planned spending against your total budget.
+#### 3.2 Viewing budget summary
+Displays a comprehensive summary comparing your planned spending against your total budget.
 * Format: `budgetsummary`
 * Expected result:
     ```text
@@ -306,7 +308,7 @@ Unlike traditional CLI apps that force you to type long, complicated command str
 
 ### 4. Expense Tracking
 
-**4.1 Set the actual expense for an activity**
+#### 4.1 Set the actual expense for an activity
     <br> Records the actual amount spent on an activity. This allows users to compare the actual expense against the planned budget for each activity in budgetsummary.
     <br>*Note: A budget must be added for an activity before its expense can be set.*
 
@@ -336,7 +338,7 @@ Unlike traditional CLI apps that force you to type long, complicated command str
 <br>
 
 
-**4.2 Listing all activity expenses**
+#### 4.2 Listing all activity expenses
     <br> Lists the actual expenses recorded for all activities in the currently opened trip. This allows users to review the spending for each activity and view the total expense incurred for the trip.
 
 * Format: `listexpense`
