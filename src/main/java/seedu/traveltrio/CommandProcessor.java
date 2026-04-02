@@ -189,7 +189,7 @@ public class CommandProcessor {
 
         int currencyChoice = ui.promptInt("Is the amount in foreign currency? (1 for Yes, 0 for No)");
         boolean isForeignCurrency = currencyChoice == 1;
-        double actualAmount = ui.promptDouble("Enter amount ($)");
+        double actualAmount = ui.promptDouble("Enter amount spent ($)");
         String successMessage = new SetExpenseCommand(
                 openTrip.getBudgets(),
                 openTrip.getActivities(),
@@ -271,7 +271,7 @@ public class CommandProcessor {
         String date;
 
         while (true) {
-            date = ui.promptField("Date");
+            date = ui.promptField("Date (YYYY-MM-DD)");
             if (date.compareTo(tripStartDate) < 0 || date.compareTo(tripEndDate) > 0) {
                 ui.showError("Activity date is outside your trip dates ("
                         + tripStartDate + " to " + tripEndDate + "). Please enter a valid date.");
@@ -284,8 +284,8 @@ public class CommandProcessor {
         String endTime;
 
         while (true) {
-            startTime = ui.promptField("Start Time");
-            endTime = ui.promptField("End Time");
+            startTime = ui.promptField("Start Time (HH:MM)");
+            endTime = ui.promptField("End Time (HH:MM)");
             if (endTime.compareTo(startTime) < 0) {
                 ui.showError("End time cannot be earlier than start time. Let's try those times again.");
             } else {
@@ -381,7 +381,7 @@ public class CommandProcessor {
      */
     private void handleSetDailyLimit() throws TravelTrioException {
         ensureTripOpen();
-        double amount = ui.promptDouble("Enter daily spending limit to set: ");
+        double amount = ui.promptDouble("Enter daily spending limit to set ($)");
         String message = new SetDailyLimitCommand(openTrip.getBudgets(), amount).execute();
         ui.showMessage(message);
     }
