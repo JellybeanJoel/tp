@@ -59,6 +59,12 @@ Given below are my contributions to the project.
   - Restructured folders to improve code modularity and maintainability  
   - Separated concerns (e.g., commands, model, storage) for better scalability  
 
+- **Active Trip Context in Command Prompt**
+  -  Enhanced the command prompt to display the currently opened trip (e.g., `[Trip Name] >`)  
+  - Provides clear visibility of the active working context  
+  - Reduces user errors when managing multiple trips  
+  - Dynamically updates the prompt based on application state (e.g., opening or closing a trip) 
+
 ---
 
 ### **Code Contributed**
