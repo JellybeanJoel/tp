@@ -112,23 +112,23 @@ public class Activity {
     }
 
     public boolean overlapsWith(Activity other) {
-        if (this.date == null || other.date == null || !this.date.equals(other.date)) {
+        if (this.date == null || other.date == null) {
             return false;
         }
         if (this.start == null || this.end == null
                 || other.start == null || other.end == null) {
             return false;
         }
-       LocalDate thisEndDate = this.endDate != null ? this.endDate : this.date;
-       LocalDate otherEndDate = other.endDate != null ? other.endDate : other.date;
+        LocalDate thisEndDate = this.endDate != null ? this.endDate : this.date;
+        LocalDate otherEndDate = other.endDate != null ? other.endDate : other.date;
 
-       LocalDateTime thisStart = LocalDateTime.of(this.date, this.start);
-       LocalDateTime thisEnd = LocalDateTime.of(thisEndDate, this.end);
-       LocalDateTime otherStart = LocalDateTime.of(other.date, other.start);
-       LocalDateTime otherEnd = LocalDateTime.of(otherEndDate, other.end);
+        LocalDateTime thisStart = LocalDateTime.of(this.date, this.start);
+        LocalDateTime thisEnd = LocalDateTime.of(thisEndDate, this.end);
+        LocalDateTime otherStart = LocalDateTime.of(other.date, other.start);
+        LocalDateTime otherEnd = LocalDateTime.of(otherEndDate, other.end);
 
-       return thisStart.isBefore(otherEnd) && otherStart.isBefore(thisEnd);
-   }
+        return thisStart.isBefore(otherEnd) && otherStart.isBefore(thisEnd);
+    }
 
     @Override
     public String toString() {
