@@ -19,6 +19,10 @@ import seedu.traveltrio.command.trip.ListTripCommand;
 import seedu.traveltrio.command.trip.OpenTripCommand;
 import seedu.traveltrio.command.trip.ImportTripCommand;
 import seedu.traveltrio.command.trip.ExportTripCommand;
+import seedu.traveltrio.command.packing.AddItemCommand;
+import seedu.traveltrio.command.packing.CheckItemCommand;
+import seedu.traveltrio.command.packing.DeleteItemCommand;
+import seedu.traveltrio.command.packing.ListItemCommand;
 import seedu.traveltrio.model.activity.ActivityList;
 import seedu.traveltrio.command.others.HelpCommand;
 import seedu.traveltrio.model.trip.Trip;
@@ -116,6 +120,18 @@ public class CommandProcessor {
                 break;
             case "setdailylimit":
                 handleSetDailyLimit();
+                break;
+            case "additem":
+                handleAddItem();
+                break;
+            case "listitems":
+                handleListItems();
+                break;
+            case "checkitem":
+                handleCheckItem();
+                break;
+            case "deleteitem":
+                handleDeleteItem();
                 break;
             case "help":
                 handleHelp();
@@ -449,6 +465,29 @@ public class CommandProcessor {
         ).run(openTrip.getName());
 
         ui.showMessageWithDivider(result);
+    }
+
+    private void handleAddItem() throws TravelTrioException {
+        ensureTripOpen();
+        String name = ui.promptField("Item name");
+        ui.showMessage(new AddItemCommand(openTrip.getPackingList(), name).execute());
+    }
+
+    private void handleListItems() throws TravelTrioException {
+        ensureTripOpen();
+        ui.showMessage(new ListItemCommand(openTrip.getPackingList()).execute());
+    }
+
+    private void handleCheckItem() throws TravelTrioException {
+        ensureTripOpen();
+        int idx = ui.promptInt("Enter item index to mark as packed");
+        ui.showMessage(new CheckItemCommand(openTrip.getPackingList(), idx).execute());
+    }
+
+    private void handleDeleteItem() throws TravelTrioException {
+        ensureTripOpen();
+        int idx = ui.promptInt("Enter item index to delete");
+        ui.showMessage(new DeleteItemCommand(openTrip.getPackingList(), idx).execute());
     }
 }
 

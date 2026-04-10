@@ -4,6 +4,7 @@ import seedu.traveltrio.model.activity.Activity;
 import seedu.traveltrio.model.activity.ActivityList;
 import seedu.traveltrio.model.budget.Budget;
 import seedu.traveltrio.model.budget.BudgetList;
+import seedu.traveltrio.model.packing.PackingList;
 
 public class Trip {
     public static final String TRIP_DIVIDER_LINE =
@@ -15,6 +16,7 @@ public class Trip {
     private String endDate;
     private final ActivityList activities;
     private final BudgetList budgets;
+    private final PackingList packingList;
     private boolean isOpen;
 
     public Trip(String name, String startDate, String endDate) {
@@ -23,6 +25,7 @@ public class Trip {
         this.endDate = endDate;
         this.activities = new ActivityList(this);
         this.budgets = new BudgetList();
+        this.packingList = new PackingList();
         this.isOpen = false;
     }
 
@@ -65,6 +68,13 @@ public class Trip {
             }
             sb.append(ACTIVITY_DIVIDER_LINE + "\n");
         }
+
+        sb.append("\nPacking List:\n");
+        sb.append(ACTIVITY_DIVIDER_LINE + "\n");
+        sb.append(packingList.toFileFormat());
+        sb.append(ACTIVITY_DIVIDER_LINE + "\n");
+
+
         return sb.toString();
     }
 
@@ -100,6 +110,10 @@ public class Trip {
         return budgets;
     }
 
+    public PackingList getPackingList() {
+        return packingList;
+    }
+    
     public boolean isOpen() {
         return isOpen;
     }

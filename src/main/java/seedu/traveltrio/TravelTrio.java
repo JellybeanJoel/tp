@@ -14,7 +14,8 @@ public class TravelTrio {
 
     /**
      * Main method that drives the application. Starts by loading previous data
-     * Displays a welcome message upon entering and enters a loop to read user inputs until user exits.
+     * Displays a welcome message upon entering and enters a loop to read user
+     * inputs until user exits.
      *
      * @param args Command line arguments passed at execution.
      */

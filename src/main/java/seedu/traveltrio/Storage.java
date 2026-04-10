@@ -4,6 +4,7 @@ import seedu.traveltrio.model.trip.Trip;
 import seedu.traveltrio.model.trip.TripList;
 import seedu.traveltrio.model.activity.Activity;
 import seedu.traveltrio.model.budget.Budget;
+import seedu.traveltrio.model.packing.PackingItem;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -98,9 +99,21 @@ public class Storage {
                     }
                     lastActivity = loadActivityDetails(fileScanner, line, currentDate, currentTrip);
                 } else if (line.contains("Budget set:")) {
-                    assert currentTrip != null: "No trip open!";
+                    assert currentTrip != null : "No trip open!";
                     loadBudgetDetails(lastActivity, line, fileScanner, currentTrip);
-                } else if (!line.startsWith("Total Budget:")){
+                } else if (line.startsWith("Packing List")) {
+                    continue;
+                } else if (line.matches("[01]\\|.*")) {
+                    if (currentTrip != null) {
+                        String[] parts = line.split("\\|", 2);
+                        boolean isPacked = parts[0].equals("1");
+                        seedu.traveltrio.model.packing.PackingItem item = new PackingItem(parts[1]);
+                        if (isPacked) {
+                            item.markPacked();
+                        }
+                        currentTrip.getPackingList().addItem(item);
+                    }
+                } else if (!line.startsWith("Total Budget:")) {
                     ui.showError("Line wrongly formatted found. [" + line + "]. Check formatting.");
                 }
             }

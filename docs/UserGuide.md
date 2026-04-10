@@ -65,7 +65,11 @@ Unlike traditional CLI apps that force you to type long, complicated command str
    * Budget Summary: Get a birds-eye view of your total trip budget, total spent, and total remaining funds with `budgetsummary`.
    * Chronological Expense List: Use `listexpense` to see a table of your daily spending. It groups expenses by date and compares them against your daily limit.
 
-5. **Data Persistence**
+5. **Packing List Management**
+    * TravelTrio allows you to manage a packing checklist for each trip. You can track what items to bring and monitor your packing progress
+    * Navigate around with commands like `additem`, `checkitem`, `listitems`, `deleteitem`
+
+6. **Data Persistence**
    * Auto-Save: TravelTrio automatically saves your data to `./data/traveltrio.txt` every time you successfully execute a command and when you `exit`.
    * Corruption Protection: The app uses robust internal logging and assertions to ensure that even if you make a mistake, your data remains consistent.
 
@@ -495,6 +499,86 @@ Sets a daily spending limit for the currently opened trip. This allows users to 
     Daily spending limit has been set to $500.00.
     ``` 
 <br>
+
+## 5. Packing List Management
+*Note: a trip must be opened before using packing list features.*
+
+TravelTrio allows you to manage a packing checklist for each trip. You can track which items have been packed and monitor your overall packing progress using a visual progress bar.
+
+### 5.1 Adding an Item
+Adds a new item to the packing list of the current trip.
+
+* Format : `additem`
+
+* Example Usage:
+    ```text
+    > additem
+    Item name: Passport
+    ```
+
+* Expected Result:
+    ```text
+    Item added: Passport
+    ```
+<br>
+
+### 5.2 Listing All Items
+Displays all items in the packing list, along with their packed status and a progress tracker.
+
+* Format : `listitems`
+
+* Example Usage:
+    ```text
+    > listitems
+    ```
+
+* Expected Result:
+    ```text
+    ===========================================================
+    Packing List:
+
+    1. [✓] Passport
+    2. [✗] Charger
+    3. [✓] Jacket
+    4. [✗] Shoes
+    5. [✓] Camera
+    ```
+<br>
+
+### 5.3 Checking off an item as Packed
+Checks off item as packed
+
+* Format : `checkitem`
+
+* Example Usage:
+    ```text
+    > checkitem
+    Enter item index to mark as packed: 1
+    ```
+
+* Expected Result:
+    ```text
+    Marked as packed: passport
+    ```
+<br>
+
+### 5.4 Deleting Item
+Removes Item from the packing list
+
+* Format : `deleteitem`
+
+* Example Usage:
+    ```text
+    > deleteitem
+    Enter item index to delete: 1
+    ```
+
+* Expected Result:
+    ```text
+    Removed item: passport
+    ```
+<br>
+
 
 
 ## FAQ
