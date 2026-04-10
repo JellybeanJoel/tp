@@ -39,7 +39,7 @@ class ListActivityCommandTest {
         ListActivityCommand command = new ListActivityCommand(activityList, trip.getStartDate(), trip.getEndDate());
         String result = command.execute("Japan Trip");
 
-        String header = String.format("%-3s | %-25s | %-15s | %-12s | %-18s | %-20s",
+        String header = String.format("%-3s | %-20s | %-15s | %-12s | %-18s | %-20s",
                         "No", "Activity", "Location", "Date", "Time", "Remark");
         String expected = "Itinerary for [Japan Trip] (2026-06-01 -> 2026-06-15):\n"
                 + header + "\n"
