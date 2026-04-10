@@ -106,8 +106,8 @@ public class Storage {
                     if (currentTrip != null) {
                         String[] parts = line.split("\\|", 2);
                         boolean isPacked = parts[0].equals("1");
-                        seedu.traveltrio.model.packing.PackingItem item = new seedu.traveltrio.model.packing.PackingItem(
-                                parts[1]);
+                        seedu.traveltrio.model.packing.PackingItem item = new seedu.traveltrio.model.packing.PackingItem
+                                (parts[1]);
                         if (isPacked) {
                             item.markPacked();
                         }
