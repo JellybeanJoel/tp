@@ -23,9 +23,12 @@ public class BudgetChartCommand extends BudgetCommand {
         StringBuilder sb = new StringBuilder();
         sb.append("Budget Usage Chart:\n");
 
-        for (var entry : budgetList.getBudgets().entrySet()) {
-            Activity activity = entry.getKey();
-            Budget budget = entry.getValue();
+        for (Activity activity : activityList.getAll()) {
+            Budget budget = budgetList.getBudget(activity);
+
+            if (budget == null) {
+                continue; // skip activities without budget
+            }
 
             double total = budget.getActivityBudget();
             double spent = budget.getActualExpense();
