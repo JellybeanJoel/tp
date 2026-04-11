@@ -7,6 +7,15 @@
 - AI was used for trivial debugging.
 
 ## Design
+TravelTrio follows a multi-layered architecture, separating concerns into four main components. This design follows the Separation of Concerns (SoC) principle, ensuring that changes in the user interface do not affect the core data logic or storage mechanisms.
+**Architecture Diagram**:
+![img.png](diagrams/ArchitectureDiagram.png)
+- `UI`: Handles all user interactions, input parsing (initial stage), and printing formatted feedback.
+- `Logic`: Contains the `Command` classes. It processes the user's intent, validates constraints, and manipulates the Model. 
+- `Model`: Holds the data structures (Trips, Activities, etc.) and enforces business rules (e.g., conflict detection for overlapping activities). 
+- `Storage`: Manages file I/O operations, ensuring data persists in the hierarchical `.txt` format. It is responsible for translating the in-memory `Model` into a storable format.
+
+### Architecture 
 
 ### Model 
 - The core logic of TravelTrio is built around a hierarchical model where Trip serves as the aggregate root. This ensures that itinerary, financial, and checklist data are strictly encapsulated.
