@@ -1,0 +1,102 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+
+object "<u>:Trip</u>" as trip1 {
+    name = "Japan Trip 2024"
+    startDate = "2024-12-01"
+    endDate = "2024-12-14"
+    isOpen = true
+}
+
+object "<u>:ActivityList</u>" as activityList {
+}
+
+object "<u>:BudgetList</u>" as budgetList {
+    totalTripBudget = 2000.00
+    totalTripExpense = 850.00
+    dailySpendingLimit = 200.00
+    exchangeRate = 150.00
+}
+
+object "<u>:PackingList</u>" as packingList {
+}
+
+object "<u>:Activity</u>" as activity1 {
+    name = "Tokyo Tower Visit"
+    location = "Tokyo"
+    date = "2024-12-02"
+    start = "14:00"
+    end = "17:00"
+    remark = "Bring camera"
+}
+
+object "<u>:Activity</u>" as activity2 {
+    name = "Mount Fuji Day Trip"
+    location = "Fuji"
+    date = "2024-12-05"
+    start = "08:00"
+    end = "20:00"
+    remark = "Wear warm clothes"
+}
+
+object "<u>class:Activity</u>" as activity3 {
+    name = "Sushi Making Class"
+    location = "Osaka"
+    date = "2024-12-10"
+    start = "10:00"
+    end = "13:00"
+    remark = "Book in advance"
+}
+
+object "<u>:Budget</u>" as budget1 {
+    activityBudget = 100.00
+    actualExpense = 85.00
+}
+
+object "<u>:Budget</u>" as budget2 {
+    activityBudget = 300.00
+    actualExpense = 280.00
+}
+
+object "<u>:PackingItem</u>" as item1 {
+    name = "Passport"
+    isPacked = true
+}
+
+object "<u>:PackingItem</u>" as item2 {
+    name = "Camera"
+    isPacked = true
+}
+
+object "<u>:PackingItem</u>" as item3 {
+    name = "Winter Jacket"
+    isPacked = false
+}
+
+object "<u>:PackingItem</u>" as item4 {
+    name = "Travel Adapter"
+    isPacked = false
+}
+
+
+trip1 --> activityList
+trip1 --> budgetList
+trip1 --> packingList
+
+activityList --> activity1
+activityList --> activity2
+activityList --> activity3
+
+budgetList --> budget1
+budgetList --> budget2
+
+budget1 --> activity1
+budget2 --> activity2
+
+packingList --> item1
+packingList --> item2
+packingList --> item3
+packingList --> item4
+
+@enduml

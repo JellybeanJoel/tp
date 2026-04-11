@@ -1,0 +1,64 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide circle
+
+
+package command.trip {
+
+    abstract class TripCommand {
+        # tripList: TripList
+        + TripCommand(TripList)
+        + run(): String
+        + {abstract} execute(): String
+    }
+
+    class AddTripCommand {
+        - name: String
+        - startDate: String
+        - endDate: String
+        + execute(): String
+    }
+
+    class DeleteTripCommand {
+        - index: int
+        + execute(): String
+    }
+
+    class ListTripCommand {
+        + execute(): String
+    }
+
+    class OpenTripCommand {
+        - index: int
+        + execute(): String
+    }
+
+    class ExportTripCommand {
+        - tripIndex: int
+        - fileName: String
+        - storage: Storage
+        + execute(): String
+    }
+
+    class ImportTripCommand {
+        - fileName: String
+        - storage: Storage
+        + execute(): String
+    }
+}
+
+TripCommand <|-- AddTripCommand
+TripCommand <|-- DeleteTripCommand
+TripCommand <|-- ListTripCommand
+TripCommand <|-- OpenTripCommand
+TripCommand <|-- ExportTripCommand
+TripCommand <|-- ImportTripCommand
+
+
+
+TripCommand --> TripList
+ExportTripCommand --> Storage
+ImportTripCommand --> Storage
+
+@enduml

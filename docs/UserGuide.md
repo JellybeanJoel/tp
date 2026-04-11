@@ -105,6 +105,7 @@ Displays all trips
 * Format: `listtrip`
 
 * Expected result:
+
   ```text
   ===========================================================
   Trips:
@@ -127,6 +128,7 @@ Sets a trip as the active working trip, to allow users to add edit the opened tr
     * `Enter the index of the trip to open: `
     
 * Example usage:
+
     ```text
     ===========================================================
     Trips:
@@ -157,6 +159,7 @@ Exports a specific trip and all its activity and budget details into a text file
     * `Enter the file name to save as (e.g., JapanTrip.txt): `
 
 * Example usage:
+
     ```text
     > exporttrip
     ===========================================================
@@ -236,27 +239,29 @@ Adds a new activity to the current trip's itinerary*
     * Remark: Users may add additional notes (e.g., "Bring water", "Buy tickets early").
     * If no remark is provided, it will be displayed as '-' in the activity list.
 * Example usage:
-```text
-> addremark
 
-Itinerary for Japan Winter Trip:
-No  | Activity                  | Location        | Date         | Time               | Remark
---------------------------------------------------------------------------------------------------------------
-1   | Hiking                    | Mount Fuji      | 2026-12-10   | 09:00 to 13:00    | -
-2   | Night Swim                | Hotel           | 2026-12-11   | 16:00 to 17:00    | -
+  ```text
+  > addremark
+  
+  Itinerary for Japan Winter Trip:
+  No  | Activity                  | Location        | Date         | Time               | Remark
+  --------------------------------------------------------------------------------------------------------------
+  1   | Hiking                    | Mount Fuji      | 2026-12-10   | 09:00 to 13:00    | -
+  2   | Night Swim                | Hotel           | 2026-12-11   | 16:00 to 17:00    | -
 
-Enter the index of the activity to add a remark to: 1
-Enter remark: Bring water and snacks
-```
+  Enter the index of the activity to add a remark to: 1
+  Enter remark: Bring water and snacks
+  ```
 * Expected result:
-```text
-===========================================================
-Remark added to activity:
 
-Hiking
-Remark: Bring water and snacks
-===========================================================
-```
+  ```text
+  ===========================================================
+  Remark added to activity:
+  
+  Hiking
+  Remark: Bring water and snacks
+  ===========================================================
+  ```
 <br>
 
 #### 2.2 Listing all Activities (shows itinerary)
@@ -599,23 +604,27 @@ You must keep the exact prefixes (like `Trip:` or `Title:`) and avoid adding emp
 
 ## Command Summary
 
-| Category     | Command          | Description                                         |
-|:-------------|:-----------------|:----------------------------------------------------|
-| **Trip**     | `addtrip`        | Create a new trip.                                  |
-|              | `listtrip`       | View a list of all your planned trips.              |
-|              | `opentrip`       | Open a specific trip to manage it.                  |
-|              | `deletetrip`     | Permanently delete a trip.                          |
-|              | `exporttrip`     | Export a trip to a text file for sharing.           |
-|              | `importtrip`     | Import a shared trip from a text file.              |
-| **Activity** | `addactivity`    | Add an event to the open trip.                      |
-|              | `listactivity`   | View the itinerary for the open trip.               |
-|              | `editactivity`   | Modify details of an existing activity.             |
-|              | `deleteactivity` | Remove an activity from the itinerary.              |
-| **Budget**   | `setbudget`      | Allocate funds for an activity.                     |
-|              | `setexpense`     | Log actual spending for an activity.                |
-|              | `setcurrency`    | Set the foreign exchange rate.                      |
-|              | `setdailylimit`  | Set a maximum daily spending limit.                 |
-|              | `budgetsummary`  | View total trip budget and remaining funds.         |
-|              | `listexpense`    | Compare budget vs. actual spending chronologically. |
-| **General**  | `help`           | View this built-in help guide.                      |
-|              | `exit`           | Save data and close the application.                |
+| Category        | Command          | Description                                         |
+|:----------------|:-----------------|:----------------------------------------------------|
+| **Trip**        | `addtrip`        | Create a new trip.                                  |
+|                 | `listtrip`       | View a list of all your planned trips.              |
+|                 | `opentrip`       | Open a specific trip to manage it.                  |
+|                 | `deletetrip`     | Permanently delete a trip.                          |
+|                 | `exporttrip`     | Export a trip to a text file for sharing.           |
+|                 | `importtrip`     | Import a shared trip from a text file.              |
+| **Activity**    | `addactivity`    | Add an event to the open trip.                      |
+|                 | `listactivity`   | View the itinerary for the open trip.               |
+|                 | `editactivity`   | Modify details of an existing activity.             |
+|                 | `deleteactivity` | Remove an activity from the itinerary.              |
+| **Budget**      | `setbudget`      | Allocate funds for an activity.                     |
+|                 | `setexpense`     | Log actual spending for an activity.                |
+|                 | `setcurrency`    | Set the foreign exchange rate.                      |
+|                 | `setdailylimit`  | Set a maximum daily spending limit.                 |
+|                 | `budgetsummary`  | View total trip budget and remaining funds.         |
+|                 | `listexpense`    | Compare budget vs. actual spending chronologically. |
+| **Packing**     | `additem`        | Add an item to the packing list.                    |
+|                 | `listitems`      | View the packing list and progress.                 |
+|                 | `checkitem`      | Mark a specific item as packed.                     |
+|                 | `deleteitem`     | Remove an item from the packing list.               |
+| **General**     | `help`           | View this built-in help guide.                      |
+|                 | `exit`           | Save data and close the application.                |

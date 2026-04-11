@@ -2,9 +2,61 @@
 
 ## Acknowledgements
 
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+- The command-step-prompting logic was inspired by the [AB3](https://seedu.org/addressbook-level3/) project architecture.
+- UML diagrams generated with [PlantUML](https://plantuml.com/).
+- AI was used for trivial debugging.
 
-## Design & implementation
+## Design
+TravelTrio follows a multi-layered architecture, separating concerns into four main components. This design follows the Separation of Concerns (SoC) principle, ensuring that changes in the user interface do not affect the core data logic or storage mechanisms.
+**Architecture Diagram**:
+![img.png](diagrams/ArchitectureDiagram.png)
+- `UI`: Handles all user interactions, input parsing (initial stage), and printing formatted feedback.
+- `Logic`: Contains the `Command` classes. It processes the user's intent, validates constraints, and manipulates the Model. 
+- `Model`: Holds the data structures (Trips, Activities, etc.) and enforces business rules (e.g., conflict detection for overlapping activities). 
+- `Storage`: Manages file I/O operations, ensuring data persists in the hierarchical `.txt` format. It is responsible for translating the in-memory `Model` into a storable format.
+
+### Architecture 
+
+### Model 
+- The core logic of TravelTrio is built around a hierarchical model where Trip serves as the aggregate root. This ensures that itinerary, financial, and checklist data are strictly encapsulated.
+- **Class diagram:**
+![img.png](diagrams/ModelClassDiagram.png)
+
+Key Structural Components:
+- `Trip`: The central entity. It owns an `ActivityList` (itinerary), `BudgetList` (financials), and `PackingList` (checklist).
+- `Storage`: Uses a dependency-based relationship to reconstruct the model hierarchy from local text files.
+- `BudgetList`: Uses a `Map<Activity, Budget>` to maintain a 1-to-1 association between scheduled events and their allocated funds.
+
+Object Diagram
+- The following diagram illustrates an example of the system state when a user is managing trips. It demonstrates how instances of `Activity`, `Budget`, and `PackingItem` are linked together under a specific Trip instance.
+![img.png](diagrams/ModelObjectDiagram.png)
+- Scenario Details:
+  - Trip Management: The user has one trip in their TripList. The "Japan Trip 2024" is currently open. 
+  - Itinerary Planning: The open trip contains three activities: "Mount Fuji Day Trip", "Tokyo Tower Visit" and "Sushi Making Class". 
+  - Financial Tracking: 
+    - A budget of $300.00 is specifically linked to the Mount Fuji Day Trip activity. 
+    - A budget of $100.00 is linked to the Tokyo Tower Visit activity.
+    - Actual expense is also tracked for both activities, with $280.00 for the Mount Fuji Day Trip activity and $85.00 for the Tokyo Tower Visit activity.
+    - No budget is set for the Sushi Making Class activity.
+  - Packing Progress: The packing list for the current trip includes 
+    - "Camera" (already packed) 
+    - "Winter Jacket" (not yet packed)
+    - "Travel Adapter" (not yet packed) and
+    - "Passport" (already packed)
+
+### Command Hierarchy
+Taking trip commands as an example, in the diagram below, we see that all trip-related actions inherit from an abstract TripCommand class.
+![img.png](diagrams/CommandTripClassDiagram.png)
+Key Design Features:
+- Inheritance: Each specific action (e.g., `AddTripCommand`, `OpenTripCommand`) extends the base `TripCommand`. They all implement the `execute()` method, allowing the application to run any trip command without knowing its specific type at runtime.
+
+External Dependencies:
+- TripList: Most commands interact with the `TripList` to add or remove trip data.
+- Storage: The `ExportTripCommand` and `ImportTripCommand` specifically maintain an association with the `Storage` component. This allows them to handle the complex task of reading from or writing to external `.txt` files independently of the main application loop.
+
+This hierarchy is also observed in the other command classes (e.g., `ActivityCommand`, `BudgetCommand`)
+
+## Implementation
 
 ### Add Activity to Itinerary feature
 **Implementation**<br>

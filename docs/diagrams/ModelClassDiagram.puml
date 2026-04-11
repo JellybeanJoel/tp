@@ -1,0 +1,153 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide circle
+skinparam linetype ortho
+
+package model.trip {
+
+    class Trip {
+        - name: String
+        - startDate: String
+        - endDate: String
+        - isOpen: boolean
+        - activities: ActivityList
+        - budgets: BudgetList
+        - packingList: PackingList
+        + Trip(name, startDate, endDate)
+        + getName(): String
+        + getStartDate(): String
+        + getEndDate(): String
+        + getActivities(): ActivityList
+        + getBudgets(): BudgetList
+        + getPackingList(): PackingList
+        + isOpen(): boolean
+        + setOpen(boolean)
+        + toFileFormat(): String
+        + formatForList(): String
+    }
+
+    class TripList {
+        - trips: ArrayList<Trip>
+        + TripList()
+        + add(Trip)
+        + remove(int): Trip
+        + get(int): Trip
+        + size(): int
+        + isEmpty(): boolean
+        + findTrips(String): ArrayList<Trip>
+        + contains(Trip): boolean
+    }
+}
+
+package model.activity {
+
+    class Activity {
+        - name: String
+        - location: String
+        - date: LocalDate
+        - start: LocalTime
+        - end: LocalTime
+        - remark: String
+        + Activity(name, location, date, start, end)
+        + getName(): String
+        + getLocation(): String
+        + getDate(): String
+        + getStart(): String
+        + getEnd(): String
+        + getRemark(): String
+        + setRemark(String)
+        + overlapsWith(Activity): boolean
+        + formatForDisplay(): String
+    }
+
+    class ActivityList {
+        - activities: ArrayList<Activity>
+        - trip: Trip
+        + ActivityList(Trip)
+        + add(Activity): String
+        + remove(int): Activity
+        + get(int): Activity
+        + size(): int
+        + isEmpty(): boolean
+        + getAll(): ArrayList<Activity>
+        + findActivities(String): ArrayList<Activity>
+    }
+}
+
+package model.budget {
+
+    class Budget {
+        - activityBudget: double
+        - actualExpense: double
+        - activity: Activity
+        + Budget(activityBudget, Activity)
+        + getActivityBudget(): double
+        + getActualExpense(): double
+        + getRemainingBudget(): double
+        + setActualExpense(double)
+    }
+
+    class BudgetList {
+        - budgets: Map<Activity, Budget>
+        - totalTripBudget: double
+        - totalTripExpense: double
+        - dailySpendingLimit: Double
+        - exchangeRate: double
+        + BudgetList()
+        + addBudget(Activity, Budget)
+        + removeBudget(Activity)
+        + getBudget(Activity): Budget
+        + setExpense(Activity, double)
+        + getTotalTripBudget(): double
+        + getTotalTripExpense(): double
+        + getTotalRemainingTripBudget(): double
+        + setDailySpendingLimit(double)
+        + setExchangeRate(double)
+        + getExchangeRate(): double
+        + hasDailyLimitSet(): boolean
+        + willExceedDailyLimit(Activity, double): boolean
+        + isEmpty(): boolean
+    }
+}
+
+package model.packing {
+
+    class PackingItem {
+        - name: String
+        - isPacked: boolean
+        + PackingItem(name)
+        + getName(): String
+        + isPacked(): boolean
+        + markPacked()
+        + markUnpacked()
+    }
+
+    class PackingList {
+        - items: List<PackingItem>
+        + PackingList()
+        + addItem(PackingItem)
+        + get(int): PackingItem
+        + remove(int)
+        + size(): int
+        + isEmpty(): boolean
+        + getItems(): List<PackingItem>
+    }
+}
+
+Trip "1" --> "1" ActivityList
+Trip "1" --> "1" BudgetList
+Trip "1" --> "1" PackingList
+
+ActivityList "1" --> "0..*" Activity
+ActivityList "1" --> "1" Trip
+
+BudgetList "1" --> "0..*" Budget
+
+Budget "1" --> "1" Activity
+
+PackingList "1" --> "0..*" PackingItem
+
+TripList "1" --> "0..*" Trip
+
+@enduml
