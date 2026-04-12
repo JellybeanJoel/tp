@@ -6,12 +6,29 @@ import seedu.traveltrio.model.activity.ActivityList;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents a command to find and display the next upcoming activity.
+ * Identifies the earliest activity scheduled after the current date and time.
+ */
 public class NextActivityCommand extends ActivityCommand {
 
+    /**
+     * Constructs a NextActivityCommand with the specified activity list.
+     *
+     * @param activityList the activity list to search for the next activity
+     */
     public NextActivityCommand(ActivityList activityList) {
         super(activityList);
     }
 
+    /**
+     * Executes the command to find the next upcoming activity.
+     * Compares each activity's start date and time against the current time.
+     *
+     * @param tripName the name of the current trip
+     * @return a formatted display of the next upcoming activity, or a message if none found
+     * @throws TravelTrioException if an error occurs during execution
+     */
     @Override
     public String execute(String tripName) throws TravelTrioException {
 

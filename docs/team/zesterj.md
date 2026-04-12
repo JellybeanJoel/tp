@@ -45,6 +45,86 @@ Given below are my contributions to the project.
 
 ---
 
+### **New Feature: Next Activity Command**
+
+- **What it does:**  
+  Displays the next upcoming activity in a trip based on the current date and time.
+
+- **Justification:**  
+  Helps users quickly identify what activity is coming up next without manually scanning through the entire itinerary.
+
+- **Highlights:**  
+  - Filters activities to find those scheduled after the current time  
+  - Returns the earliest upcoming activity in a formatted display  
+
+- **Implementation:**  
+  - Used `LocalDateTime` to compare activity start times against the current time  
+  - Iterates through all activities to find the one with the earliest future start time  
+  - Integrated with the activity display formatting for consistent output  
+
+---
+
+### **New Feature: Budget Chart Command**
+
+- **What it does:**  
+  Generates a visual bar chart showing budget usage percentage for each activity in a trip.
+
+- **Justification:**  
+  Provides users with an at-a-glance view of how much of their budget has been consumed for each activity, enabling better financial tracking during travel.
+
+- **Highlights:**  
+  - Displays budget usage as a visual bar chart (e.g., `[#####-----] 50%`)  
+  - Shows percentage calculation for each activity's budget vs actual spending  
+  - Skips activities without assigned budgets  
+
+- **Implementation:**  
+  - Calculated percentage as `(spent / total) * 100` for each activity budget  
+  - Created a 10-segment bar representation using `#` for filled and `-` for empty segments  
+  - Integrated with the `Budget` and `ActivityList` models to retrieve spending data  
+
+---
+
+### **New Feature: Activity Remarks**
+
+- **What it does:**  
+  Allows users to add custom remarks or notes to individual activities.
+
+- **Justification:**  
+  Enables users to record important details, reminders, or context for activities (e.g., "Book tickets in advance", "Meeting point: Gate 5").
+
+- **Highlights:**  
+  - Supports adding remarks to any existing activity by index  
+  - Remarks are displayed alongside activity details in listings  
+
+- **Implementation:**  
+  - Added `remark` field to the `Activity` class with getter/setter methods  
+  - Updated `formatForDisplay()` and `formatForTableRow()` to include remark information  
+  - Implemented `AddRemarkCommand` to handle remark assignment with validation  
+
+---
+
+### **New Feature: Packing List Management**
+
+- **What it does:**  
+  Provides a complete packing list system for users to track items they need to pack for their trip.
+
+- **Justification:**  
+  Helps users stay organized by maintaining a checklist of items to pack, ensuring nothing is forgotten before departure.
+
+- **Highlights:**  
+  - Add new items to the packing list  
+  - List all items with packed/unpacked status indicators (`[X]` or `[ ]`)  
+  - Mark items as packed/unpacked  
+  - Delete items from the packing list  
+
+- **Implementation:**  
+  - Designed `PackingItem` class with name and packed status fields  
+  - Implemented `PackingList` class to manage collection of packing items with file serialization support  
+  - Created command classes: `AddItemCommand`, `ListItemCommand`, `CheckItemCommand`, `DeleteItemCommand`  
+  - Integrated packing list storage with the trip data persistence layer  
+
+---
+
 ### **Enhancements to Existing Features**
 
 - **Activity Listing by Timestamp**  
@@ -65,12 +145,17 @@ Given below are my contributions to the project.
   - Reduces user errors when managing multiple trips  
   - Dynamically updates the prompt based on application state (e.g., opening or closing a trip) 
 
+- **Activity Table Display with Remarks**
+  - Enhanced activity table rows to include remark column  
+  - Updated formatting logic to display remarks consistently in listings  
+
 ---
 
 ### **Code Contributed**
 [RepoSense Link](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=zesterj&breakdown=true&sort=groupTitle%20dsc&sortWithin=title&since=2026-02-20T00%3A00%3A00&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other&filteredFileName=&tabOpen=true&tabType=authorship&tabAuthor=ZesterJ&tabRepo=AY2526S2-CS2113-F09-4%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false)
 
-- Contributed across core modules including `Trip`, activity scheduling, and parser logic.
+- Contributed across core modules including `Trip`, activity scheduling, budget management, packing list system, and parser logic.
+- Key files: `NextActivityCommand.java`, `BudgetChartCommand.java`, `AddRemarkCommand.java`, `PackingList.java`, `PackingItem.java`, `AddItemCommand.java`, `ListItemCommand.java`, `CheckItemCommand.java`, `DeleteItemCommand.java`
 
 ---
 
@@ -86,10 +171,18 @@ Given below are my contributions to the project.
 * **User Guide:**
   - Documented commands for trip creation, listing, and activity scheduling  
   - Provided examples for handling scheduling conflicts  
+  - Added documentation for `next` command to find upcoming activities  
+  - Documented `budgetchart` command with visual bar chart examples  
+  - Added remarks feature documentation with usage examples  
+  - Documented complete packing list management commands (`additem`, `listitem`, `checkitem`, `deleteitem`)  
 
 * **Developer Guide:**
   - Documented implementation of schedule conflict detection logic  
   - Explained design of `Trip` abstraction and usage of `LocalDate` and `LocalTime`  
+  - Documented the `NextActivityCommand` implementation and time comparison logic  
+  - Explained `BudgetChartCommand` visual bar generation algorithm  
+  - Documented the packing list system architecture including `PackingList` and `PackingItem` classes  
+  - Added remarks integration into the `Activity` model class  
 
 ---
 

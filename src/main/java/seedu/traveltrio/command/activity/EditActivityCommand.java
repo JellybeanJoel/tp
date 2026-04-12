@@ -4,7 +4,11 @@ import seedu.traveltrio.TravelTrioException;
 import seedu.traveltrio.model.activity.Activity;
 import seedu.traveltrio.model.activity.ActivityList;
 
-public class EditActivityCommand extends ActivityCommand{
+/**
+ * Represents a command to edit an existing activity in the itinerary.
+ * Allows partial updates to activity fields.
+ */
+public class EditActivityCommand extends ActivityCommand {
     private final int index;
     private final String name;
     private final String location;
@@ -13,6 +17,18 @@ public class EditActivityCommand extends ActivityCommand{
     private final String end;
 
 
+    /**
+     * Constructs an EditActivityCommand with the specified activity details.
+     * Null or blank fields will not be updated.
+     *
+     * @param activityList the activity list containing the activity to edit
+     * @param index the 1-based index of the activity to edit
+     * @param name the new name for the activity, or null to keep unchanged
+     * @param location the new location for the activity, or null to keep unchanged
+     * @param date the new date for the activity, or null to keep unchanged
+     * @param start the new start time for the activity, or null to keep unchanged
+     * @param end the new end time for the activity, or null to keep unchanged
+     */
     public EditActivityCommand(ActivityList activityList, int index, String name, String location, String date,
                                String start, String end) {
         super(activityList);
@@ -25,6 +41,14 @@ public class EditActivityCommand extends ActivityCommand{
     }
 
 
+    /**
+     * Executes the command to edit an existing activity.
+     * Only updates fields that are provided (non-null and non-blank).
+     *
+     * @param tripName the name of the current trip
+     * @return a success message with the updated activity details
+     * @throws TravelTrioException if the specified index is invalid
+     */
     public String execute(String tripName) throws TravelTrioException {
         int zeroBasedIndex = index - 1;
 

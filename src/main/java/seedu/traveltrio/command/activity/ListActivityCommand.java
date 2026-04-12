@@ -3,10 +3,21 @@ package seedu.traveltrio.command.activity;
 import seedu.traveltrio.TravelTrioException;
 import seedu.traveltrio.model.activity.ActivityList;
 
+/**
+ * Represents a command to list all activities in the trip itinerary.
+ * Displays activities in a formatted table with columns for activity details and remarks.
+ */
 public class ListActivityCommand extends ActivityCommand {
     private final String tripStartDate;
     private final String tripEndDate;
 
+    /**
+     * Constructs a ListActivityCommand with the specified activity list and trip dates.
+     *
+     * @param activityList the activity list to display
+     * @param tripStartDate the start date of the trip for display purposes
+     * @param tripEndDate the end date of the trip for display purposes
+     */
     public ListActivityCommand(ActivityList activityList, String tripStartDate, String tripEndDate){
         super(activityList);
         this.tripStartDate = tripStartDate;
@@ -14,6 +25,14 @@ public class ListActivityCommand extends ActivityCommand {
 
     }
 
+    /**
+     * Executes the command to display all activities in a formatted table.
+     * Activities are sorted by date and time.
+     *
+     * @param tripName the name of the current trip
+     * @return a formatted string displaying all activities in a table format
+     * @throws TravelTrioException if the activity list is empty
+     */
     public String execute(String tripName) throws TravelTrioException {
         if (activityList.isEmpty()){
             throw new TravelTrioException("The itinerary is Empty.");
