@@ -28,19 +28,20 @@ public class HelpCommand {
                     + "15. setcurrency   : Update the exchange rate for converting foreign currency expenses to home"
                             + " currency.\n"
                     + "16. budgetsummary : View a breakdown of expenses and remaining budget.\n"
-                    + "17. listexpense   : compare budget and actual spending for activities, "
+                    + "17. budgetchart   : View a visual chart of your budget versus actual spending.\n"
+                    + "18. listexpense   : compare budget and actual spending for activities, "
                             + "and show total spending.\n"
-                    + "18. setdailylimit : set a daily limit for expenses, warn users when limit exceeds.\n\n"
+                    + "19. setdailylimit : set a daily limit for expenses, warn users when limit exceeds.\n\n"
 
                     + "--- Packing Commands (Requires an open trip) ---\n"
-                    + "19. additem       : Add a new item to your packing list.\n"
-                    + "20. listitems     : View all items in your packing list.\n"
-                    + "21. checkitem     : Mark an item in your packing list as packed.\n"
-                    + "22. deleteitem    : Remove an item from your packing list.\n\n"
+                    + "20. additem       : Add a new item to your packing list.\n"
+                    + "21. listitems     : View all items in your packing list.\n"
+                    + "22. checkitem     : Mark an item in your packing list as packed.\n"
+                    + "23. deleteitem    : Remove an item from your packing list.\n\n"
 
                     + "--- General Commands ---\n"
-                    + "23. help          : Show this help menu.\n"
-                    + "24. exit          : Exit the application.\n"
+                    + "24. help          : Show this help menu.\n"
+                    + "25. exit          : Exit the application.\n"
                     + "---------------------------------------------------------------";
 
     public String execute() {

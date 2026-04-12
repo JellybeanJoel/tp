@@ -39,7 +39,7 @@ public class Ui {
         System.out.println("Commands: \n" +
                 "addtrip, listtrip, opentrip, deletetrip, exporttrip, importtrip, \n" +
                 "addactivity, listactivity, editactivity, deleteactivity, nextactivity, addremark, \n" +
-                "setbudget, setexpense, setcurrency, setdailylimit, budgetsummary, listexpense, budgetchart, \n" +
+                "setbudget, setexpense, setcurrency, budgetsummary, budgetchart, listexpense, setdailylimit,\n" +
                 "additem, listitems, checkitem, deleteitem, \n" +
                 "help, exit");
     }

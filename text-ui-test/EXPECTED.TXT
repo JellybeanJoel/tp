@@ -10,7 +10,7 @@ How can I help you plan today?
 Commands: 
 addtrip, listtrip, opentrip, deletetrip, exporttrip, importtrip, 
 addactivity, listactivity, editactivity, deleteactivity, nextactivity, addremark, 
-setbudget, setexpense, setcurrency, setdailylimit, budgetsummary, listexpense, budgetchart, 
+setbudget, setexpense, setcurrency, budgetsummary, budgetchart, listexpense, setdailylimit,
 additem, listitems, checkitem, deleteitem, 
 help, exit
 No previous data found. Starting a new journey!
