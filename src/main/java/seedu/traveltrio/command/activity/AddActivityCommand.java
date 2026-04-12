@@ -67,7 +67,8 @@ public class AddActivityCommand extends ActivityCommand {
      * @param activityList the activity list containing the trip reference
      * @throws TravelTrioException if the date is outside the trip's date range
      */
-    private void validateActivityDateWithinTripRange(String date, ActivityList activityList) throws TravelTrioException {
+    private void validateActivityDateWithinTripRange(String date,
+            ActivityList activityList) throws TravelTrioException {
         if (date == null || date.isBlank()) {
             return;
         }
