@@ -35,7 +35,7 @@ public class ExportTripCommand extends TripCommand{
      *
      * @return Formatted string confirming the successful export of the trip.
      * @throws TravelTrioException If the provided trip index is out of bounds
-     * or if an error occurs during file writing.
+     *                             or if an error occurs during file writing.
      */
     @Override
     public String execute() throws TravelTrioException {

@@ -35,8 +35,8 @@ public class AddTripCommand extends TripCommand {
      * and that the start date is chronologically before or equal to the end date.
      *
      * @return Formatted string confirming the successful addition of the new trip.
-     * @throws TravelTrioException If the trip name is empty, dates are missing, or the start date
-     * is after the end date.
+     * @throws TravelTrioException If the trip name is empty, dates are missing,
+     *                             or the start date is after the end date.
      */
     @Override
     public String execute() throws TravelTrioException {
