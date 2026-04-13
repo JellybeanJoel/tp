@@ -256,6 +256,10 @@ public class CommandProcessor {
         }
 
         int currencyChoice = ui.promptInt("Is the amount in foreign currency? (1 for Yes, 0 for No)");
+        if (currencyChoice != 0 && currencyChoice != 1) {
+            throw new TravelTrioException("Invalid choice for currency. Please enter 1 for Yes or 0 for No.");
+        }
+        
         boolean isForeignCurrency = currencyChoice == 1;
         double actualAmount = ui.promptDouble("Enter amount spent ($)");
         String successMessage = new SetExpenseCommand(
