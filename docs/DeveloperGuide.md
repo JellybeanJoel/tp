@@ -20,6 +20,7 @@ TravelTrio follows a multi-layered architecture, separating concerns into four m
 ### Model 
 - The core logic of TravelTrio is built around a hierarchical model where Trip serves as the aggregate root. This ensures that itinerary, financial, and checklist data are strictly encapsulated.
 - **Class diagram:**
+
 ![img.png](diagrams/ModelClassDiagram.png)
 
 Key Structural Components:
@@ -55,48 +56,6 @@ External Dependencies:
 - Storage: The `ExportTripCommand` and `ImportTripCommand` specifically maintain an association with the `Storage` component. This allows them to handle the complex task of reading from or writing to external `.txt` files independently of the main application loop.
 
 This hierarchy is also observed in the other command classes (e.g., `ActivityCommand`, `BudgetCommand`)
-
-### Packing List Component
-**Implementation**<br>
-The packing list feature allows users to create and manage a checklist of items to pack for their trip. Each item can be marked as packed or unpacked to track packing progress.
-
-The feature mainly involves the following classes:
-- `PackingList` — Stores and manages all `PackingItem` objects for a trip.
-- `PackingItem` — Represents a single item with a name and packed status.
-- `AddItemCommand` — Adds a new item to the packing list.
-- `ListItemCommand` — Displays all items in the packing list with their status.
-- `CheckItemCommand` — Marks an item as packed.
-- `DeleteItemCommand` — Removes an item from the packing list.
-- `Trip` — Owns the `PackingList` as part of its data structure.
-
-The `PackingList` maintains an `ArrayList<PackingItem>` to store items. Each `PackingItem` has a `name` (String) and `isPacked` (boolean) field. New items are initially marked as unpacked (`isPacked = false`).
-
-The `PackingItem#toFileFormat()` method serializes items as `"1|name"` for packed items and `"0|name"` for unpacked items, allowing the storage component to persist packing data.
-
-Given below is an example usage scenario and how the packing list mechanism behaves at each step.
-
-Step 1. The user opens a trip, for example Japan Trip. The opened `Trip` contains a `PackingList`, which may initially be empty.
-
-Step 2. The user executes an `additem` command and is prompted to enter the item name.
-
-Step 3. The application collects the user input, creates a new `PackingItem` with the provided name (initially marked as unpacked), and creates an `AddItemCommand`.
-
-Step 4. The user command is executed through `AddItemCommand#execute()`. The command validates that the item name is not empty, then calls `PackingList#addItem(item)` to add the item to the list.
-
-Step 5. A success message is returned to the user, showing that the item has been added.
-
-Step 6. The user can type `listitems` to view all packing items with their packed/unpacked status displayed as `[X]` for packed and `[ ]` for unpacked.
-
-Step 7. The user can type `checkitem` and select an item index to mark it as packed. The `CheckItemCommand#execute()` calls `PackingItem#markPacked()` on the selected item.
-
-Step 8. The user can type `deleteitem` to remove an item from the list. The `DeleteItemCommand#execute()` validates the index and calls `PackingList#remove(index)`.
-
-If the command input is invalid (such as an out-of-bounds index or empty item name), or if no trip is currently opened, the command will not be executed successfully.
-
-**Sequence Diagram:**
-
-The following sequence diagram shows how an operation to add a packing item goes:
-![img.png](diagrams/AddItemSequenceDiagram.png)
 
 ## Implementation
 
@@ -211,6 +170,69 @@ If the command input is invalid, the command will not be executed successfully a
 The following sequence diagram shows how an operation to add a trip goes:
 ![img.png](diagrams/AddTripSequenceDiagram.png)
 
+### Delete Trip feature 
+**Implementation**<br>
+The `deletetrip` feature is facilitated by `DeleteTripCommand`. It allows the user to delete a trip from the trip list by its index.
+
+The feature mainly involves the following classes:
+- `DeleteTripCommand` — removes the specified trip from the trip list.
+- `TripList` — stores all `Trip` objects and is used to retrieve and remove the target trip.
+
+The `DeleteTripCommand` receives the target `TripList` and the 1-based index of the trip to delete. When `DeleteTripCommand#execute()` is called, it validates that the index is within the bounds of the current trip list before attempting removal. It removes the trip and returns a confirmation message.
+
+Given below is an example usage scenario and how the delete trip mechanism behaves at each step.
+
+Step 1. The user executes a `deletetrip` command and provides the 1-based index of the trip they wish to delete.
+
+Step 2. The application collects the user input, capturing the index.
+
+Step 3. The application creates a `DeleteTripCommand`, passing in the current `TripList` and the target index.
+
+Step 4. The user command is executed through `DeleteTripCommand#execute()`. The command validates that the index is valid (greater than or equal to 0, and less than the trip list size). 
+
+Step 5. The command captures the string representation of the trip to be removed and calls `tripList.remove(index)`.
+
+Step 6. A formatted string confirming the successful deletion of the trip is returned to the user.
+
+If the command input is invalid (such as an out-of-bounds index), a `TravelTrioException` is thrown and the command will not be executed successfully.
+
+**Sequence Diagram:**
+
+The following sequence diagram shows how an operation to delete a trip goes:
+
+
+### Open Trip feature
+**Implementation**<br>
+The `opentrip` feature is facilitated by `OpenTripCommand`. It allows the user to open a specific trip for editing. Crucially, it ensures only one trip is open at a time by closing any previously open trip.
+
+The feature mainly involves the following classes:
+- `OpenTripCommand` — opens the target trip and closes all others.
+- `TripList` — stores all `Trip` objects, which are iterated over to manage open states.
+- `Trip` — represents the travel plan whose open status is being modified.
+
+The `OpenTripCommand` receives the target `TripList` and the 1-based index of the trip to open. When `OpenTripCommand#execute()` is called, it iterates through the entire list to set any open trip's status to false, then sets the target trip's status to active.
+
+Given below is an example usage scenario and how the open trip mechanism behaves at each step.
+
+Step 1. The user executes an `opentrip` command, providing the index of the trip they wish to access.
+
+Step 2. The application creates an `OpenTripCommand`, passing in the `TripList` and the target index.
+
+Step 3. The user command is executed through `OpenTripCommand#execute()`. The command validates that the index is within bounds.
+
+Step 4. The command iterates through the `TripList`, checking if any `Trip` is currently open. If one is found, it calls `trip.setOpen(false)`.
+
+Step 5. The command retrieves the target trip and calls `tripToOpen.setOpen(true)`.
+
+Step 6. A formatted string confirming the successful opening of the target trip is returned.
+
+If the provided trip index is out of bounds, a `TravelTrioException` is thrown and the currently open trip (if any) remains open.
+
+**Sequence Diagram:**
+
+The following sequence diagram shows how an operation to open a trip goes:
+
+
 ### Set Budget feature
 **Implementation**<br>
 
@@ -251,6 +273,72 @@ If the command input is invalid, or if no trip is currently opened, the command 
 The following sequence diagram shows how an operation to set budget goes:
 ![img.png](diagrams/SetBudgetSequenceDiagram.png)
 
+
+### Budget Summary feature
+**Implementation**<br>
+The `budgetsummary` feature is facilitated by `BudgetSummaryCommand`. It generates a comprehensive summary of the trip's financial status, calculating overall totals and providing an itemized breakdown per activity.
+
+The feature mainly involves the following classes:
+- `BudgetSummaryCommand` — compiles the budget summary string.
+- `BudgetList` — calculates the total trip budget, total trip expense, and remaining trip budget.
+- `ActivityList` — provides the scheduled activities to match against assigned budgets.
+
+The `BudgetSummaryCommand` receives the `BudgetList` and `ActivityList`. When `BudgetSummaryCommand#execute()` is called, it builds a formatted string with overall financial totals, followed by a line-by-line breakdown of each activity that has an allocated budget.
+
+Given below is an example usage scenario and how the budget summary mechanism behaves at each step.
+
+Step 1. The user opens a trip containing an `ActivityList` and `BudgetList`.
+
+Step 2. The user executes a `budgetsummary` command.
+
+Step 3. The application creates a `BudgetSummaryCommand`, passing in the trip's `BudgetList` and `ActivityList`.
+
+Step 4. The user command is executed through `BudgetSummaryCommand#execute()`. The command fetches the total budget, total expense, and remaining budget from `BudgetList` and formats them into a summary block.
+
+Step 5. The command checks if the budget list is empty. If it contains budgets, it iterates through the `ActivityList`.
+
+Step 6. For each activity, it checks if a corresponding budget exists. If found, it appends the activity index and budget details to the itemized breakdown.
+
+Step 7. The final formatted string is displayed to the user.
+
+If no budgets have been added to the trip yet, a `TravelTrioException` is thrown to notify the user.
+
+**Sequence Diagram:**
+
+The following sequence diagram shows how an operation to view the budget summary goes:
+
+
+### Set Currency feature
+**Implementation**<br>
+The `setcurrency` feature is facilitated by `SetCurrencyCommand`. It allows the user to update the multiplier used to convert foreign currency expenses into the user's home currency for the entire trip.
+
+The feature mainly involves the following classes:
+- `SetCurrencyCommand` — updates the exchange rate.
+- `BudgetList` — holds the financial data for the trip and stores the current exchange rate.
+
+The `SetCurrencyCommand` receives the target `BudgetList`, `ActivityList`, a null/dummy activity, and the exchange rate. When `SetCurrencyCommand#execute()` is called, it applies the new conversion rate to the `BudgetList`. 
+
+Given below is an example usage scenario and how the set currency mechanism behaves at each step.
+
+Step 1. The user opens a trip containing a `BudgetList`.
+
+Step 2. The user executes a `setcurrency` command and provides the new exchange rate.
+
+Step 3. The application creates a `SetCurrencyCommand`, passing in the current trip's `BudgetList`, `ActivityList`, and the exchange rate.
+
+Step 4. The user command is executed through `SetCurrencyCommand#execute()`. The command validates that the provided exchange rate is strictly greater than zero.
+
+Step 5. The command calls `budgetList.setExchangeRate(exchangeRate)`.
+
+Step 6. A formatted string confirming the new exchange rate (e.g., "1 Foreign Currency = X.XXXX Home Currency") is returned.
+
+If the provided exchange rate is less than or equal to zero, a `TravelTrioException` is thrown.
+
+**Sequence Diagram:**
+
+The following sequence diagram shows how an operation to set the currency exchange rate goes:
+
+
 ### Storage Component
 **Implementation**<br>
 The `Storage` component handles the data persistence of the application. It is responsible for saving the TripList to a 
@@ -289,136 +377,6 @@ If a line is encountered that does not match any expected prefix or formatting, 
 The following sequence diagram shows how the `Storage` component interacts with the `Scanner` and `Model` classes to load data:
 ![img.png](diagrams/StorageSequenceDiagram.png)
 
-### Add Packing Item feature 
-**Implementation**<br>
-The `additem` feature is facilitated by `AddItemCommand`. It allows the user to add a new `PackingItem` into the `PackingList` of the currently opened `Trip`.
-
-The feature mainly involves the following classes:
-- `AddItemCommand` — adds a new `PackingItem` into the packing list.
-- `PackingItem` — represents a single packing item with a name and packed status.
-- `PackingList` — stores all `PackingItem` objects belonging to a trip.
-- `Trip` — owns the corresponding `PackingList`.
-
-The `AddItemCommand` receives the target `PackingList` and the item name to be added. 
-When `AddItemCommand#execute()` is called, the command validates that the item name is not empty, creates a new `PackingItem`, adds it to the list, and returns a success message.
-
-Given below is an example usage scenario and how the add packing item mechanism behaves at each step.
-
-Step 1. The user opens a trip, for example Japan Trip. The opened `Trip` contains a `PackingList`, which may initially be empty.
-
-Step 2. The user executes an `additem` command and is prompted to enter the item name.
-
-Step 3. The application collects the user input through the `Ui` and passes it to the `CommandProcessor`.
-
-Step 4. The application creates an `AddItemCommand`, passing in the current trip's `PackingList` and the provided item name.
-
-Step 5. The user command is executed through `AddItemCommand#execute()`. The command validates that the name is not empty or null, trims whitespace, creates a new `PackingItem` object (initially marked as unpacked), and calls `PackingList#addItem(item)`.
-
-Step 6. A success message is returned to the user, showing that the item has been successfully added.
-
-If the command input is invalid (empty or null item name), the command will not be executed successfully and no item will be added.
-
-**Sequence Diagram:**
-
-The following sequence diagram shows how an operation to add a packing item goes:
-![img.png](diagrams/AddItemSequenceDiagram.png)
-
-### List Packing Items feature 
-**Implementation**<br>
-The `listitems` feature is facilitated by `ListItemCommand`. It allows the user to view all `PackingItem` objects in the `PackingList` of the currently opened `Trip`, along with their packed/unpacked status.
-
-The feature mainly involves the following classes:
-- `ListItemCommand` — retrieves and formats all items from the packing list for display.
-- `PackingList` — stores all `PackingItem` objects and provides access to them.
-- `PackingItem` — represents a single item whose status is displayed.
-- `Trip` — owns the corresponding `PackingList`.
-
-The `ListItemCommand` receives the target `PackingList`. When `ListItemCommand#execute()` is called, it checks if the list is empty. If not, it iterates through all items and formats them with their status (`[X]` for packed, `[ ]` for unpacked) and index numbers.
-
-Given below is an example usage scenario and how the list packing items mechanism behaves at each step.
-
-Step 1. The user opens a trip, for example Japan Trip. The opened `Trip` contains a `PackingList` with existing items.
-
-Step 2. The user executes a `listitems` command.
-
-Step 3. The application creates a `ListItemCommand`, passing in the current trip's `PackingList`.
-
-Step 4. The user command is executed through `ListItemCommand#execute()`. The command checks if the list is empty. If empty, it returns a message indicating the packing list is empty.
-
-Step 5. If the list contains items, the command builds a formatted string displaying each item with its index and status (e.g., "1. [X] Passport", "2. [ ] Winter Jacket").
-
-Step 6. The formatted list is displayed to the user.
-
-**Sequence Diagram:**
-
-The following sequence diagram shows how an operation to list packing items goes:
-![img.png](diagrams/ListItemSequenceDiagram.png)
-
-### Check Packing Item feature 
-**Implementation**<br>
-The `checkitem` feature is facilitated by `CheckItemCommand`. It allows the user to mark an existing `PackingItem` as packed in the `PackingList` of the currently opened `Trip`.
-
-The feature mainly involves the following classes:
-- `CheckItemCommand` — marks a specified `PackingItem` as packed.
-- `PackingItem` — represents a single packing item whose status is being updated.
-- `PackingList` — stores all `PackingItem` objects and is used to retrieve the target item.
-- `Trip` — owns the corresponding `PackingList`.
-
-The `CheckItemCommand` receives the target `PackingList` and the 1-based index of the item to mark as packed. When `CheckItemCommand#execute()` is called, it validates the index, retrieves the target `PackingItem`, calls `markPacked()` on it, and returns a success message.
-
-Given below is an example usage scenario and how the check packing item mechanism behaves at each step.
-
-Step 1. The user opens a trip, for example Japan Trip. The opened `Trip` contains a `PackingList` with existing items.
-
-Step 2. The user executes a `checkitem` command and is prompted to enter the index of the item to mark as packed.
-
-Step 3. The application collects the user input, capturing the index.
-
-Step 4. The application creates a `CheckItemCommand`, passing in the current trip's `PackingList` and the target index.
-
-Step 5. The user command is executed through `CheckItemCommand#execute()`. The command validates that the index is within bounds (1 to list size), retrieves the target `PackingItem` using `PackingList#get(index - 1)`, and calls `PackingItem#markPacked()`.
-
-Step 6. A success message is returned to the user, showing that the item has been marked as packed.
-
-If the command input is invalid (such as an out-of-bounds index), or if no trip is currently opened, the command will not be executed successfully and the item will remain unchanged.
-
-**Sequence Diagram:**
-
-The following sequence diagram shows how an operation to check a packing item goes:
-![img.png](diagrams/CheckItemSequenceDiagram.png)
-
-### Delete Packing Item feature 
-**Implementation**<br>
-The `deleteitem` feature is facilitated by `DeleteItemCommand`. It allows the user to remove an existing `PackingItem` from the `PackingList` of the currently opened `Trip`.
-
-The feature mainly involves the following classes:
-- `DeleteItemCommand` — removes a specified `PackingItem` from the packing list.
-- `PackingItem` — represents a single packing item that is being removed.
-- `PackingList` — stores all `PackingItem` objects and is used to retrieve and remove the target item.
-- `Trip` — owns the corresponding `PackingList`.
-
-The `DeleteItemCommand` receives the target `PackingList` and the 1-based index of the item to delete. When `DeleteItemCommand#execute()` is called, it validates the index, retrieves the target item's name for the success message, removes it from the list, and returns a confirmation message.
-
-Given below is an example usage scenario and how the delete packing item mechanism behaves at each step.
-
-Step 1. The user opens a trip, for example Japan Trip. The opened `Trip` contains a `PackingList` with existing items.
-
-Step 2. The user executes a `deleteitem` command and is prompted to enter the index of the item to delete.
-
-Step 3. The application collects the user input, capturing the index.
-
-Step 4. The application creates a `DeleteItemCommand`, passing in the current trip's `PackingList` and the target index.
-
-Step 5. The user command is executed through `DeleteItemCommand#execute()`. The command validates that the index is within bounds (1 to list size), retrieves the target `PackingItem` using `PackingList#get(index - 1)`, captures its name, and calls `PackingList#remove(index - 1)`.
-
-Step 6. A success message is returned to the user, showing that the item has been removed.
-
-If the command input is invalid (such as an out-of-bounds index), or if no trip is currently opened, the command will not be executed successfully and no item will be removed.
-
-**Sequence Diagram:**
-
-The following sequence diagram shows how an operation to delete a packing item goes:
-![img.png](diagrams/DeleteItemSequenceDiagram.png)
 
 ## Product scope
 ### Target user profile
@@ -519,7 +477,8 @@ TravelTrio provides a high-speed, distraction-free environment for itinerary man
 #### Pre-loading Sample Data (Alternative)
 1. Stop the application (press `Ctrl+C` or type `exit`)
 2. Create or replace `data/traveltrio.txt` with the following sample content:
-```
+
+```text
 ***************************************************************************
 Trip: Japan Trip | From: 2026-03-15 | To: 2026-03-22 | 
 Total Budget: 3000.00 | Remaining Budget: 1250.00 | Exchange Rate: 1.50
@@ -681,6 +640,17 @@ Packing List:
 2. **Expected:** All major commands are listed with descriptions
 3. Type `opentrip` without an open trip to re-prompt
 4. Navigate through various commands and verify the step-by-step guidance is clear and helpful
+
+#### Scenario 12: Delete Trip Management
+1. Ensure you have at least one trip in your list. (You can type `listtrip` to verify, or use `addtrip` to create a dummy trip first).
+2. **Delete a trip:** Type `deletetrip` and enter the index of the trip you wish to remove when prompted (e.g., `1`).
+   - **Expected:** The application displays a confirmation message showing the name and dates of the deleted trip.
+3. **Verify deletion:** Type `listtrip`.
+   - **Expected:** The deleted trip should no longer appear in the list.
+4. **Test invalid index (Out of bounds):** Type `deletetrip` and enter an index that does not exist (e.g., `0`, `-1`, or a number larger than your total trips).
+   - **Expected:** The application rejects the input, throws a `TravelTrioException`, and displays an "Invalid trip index" error message.
+5. **Verify data safety:** Type `listtrip` again.
+   - **Expected:** Your existing trips remain untouched and safe despite the invalid deletion attempt.
 
 ### Cleanup After Testing
 - Delete the `data/traveltrio.txt` file to reset to a clean state for the next test run

@@ -1,13 +1,13 @@
 @startuml
 hide footbox
 actor User
-participant TravelTrio
-participant Ui
-participant CommandProcessor
-participant SetBudgetCommand
-participant BudgetList
-participant Activity
-participant Budget
+participant ":TravelTrio" as TravelTrio
+participant ":Ui" as Ui
+participant ":CommandProcessor" as CommandProcessor
+participant ":SetBudgetCommand" as SetBudgetCommand
+participant ":BudgetList" as BudgetList
+participant ":Activity" as Activity
+participant ":Budget" as Budget
 
 User -> TravelTrio : enter "setbudget"
 TravelTrio -> CommandProcessor : process("setbudget")
