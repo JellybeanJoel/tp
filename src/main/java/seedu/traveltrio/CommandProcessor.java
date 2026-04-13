@@ -524,7 +524,8 @@ public class CommandProcessor {
     private void handleSetDailyLimit() throws TravelTrioException {
         ensureTripOpen();
         double amount = ui.promptDouble("Enter daily spending limit to set ($)");
-        String message = new SetDailyLimitCommand(openTrip.getBudgets(), amount).execute();
+        String message = new SetDailyLimitCommand(openTrip.getBudgets(), amount, 
+                openTrip.getStartDate(), openTrip.getEndDate()).execute();
         ui.showMessage(message);
     }
 

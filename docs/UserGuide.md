@@ -439,6 +439,7 @@ Displays a visual chart showing how much of each activity's budget has been used
 #### 4.1 Setting the Currency Exchange Rate
 Sets the multiplier used to convert foreign currency expenses into your home currency for the currently opened trip. This makes it easy to track overseas spending without doing manual math!
 *Note: The exchange rate determines how much 1 unit of foreign currency is worth in your home currency.*
+*Note: After changing currency, it will only affect subsequent set expenses. This allows you to change your currency when travelling to multiple countries in 1 trip*
 
 * Format: `setcurrency`
   * After entering the command, the application will prompt the user for inputs:
