@@ -6,7 +6,13 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Represents the user interface of the application. A Ui object handles
+ * all interactions with the user, including reading commands and displaying messages,
+ * errors, and prompts.
+ */
 public class Ui {
+
     public static final String LOGO =
             "  _______                   _ _______   _ \n"
             + " |__   __|                 | |__   __| (_) \n"
@@ -19,10 +25,20 @@ public class Ui {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     private final Scanner in;
 
+    /**
+     * Initializes a Ui object and its input scanner.
+     */
     public Ui () {
         this.in = new Scanner(System.in);
     }
 
+    /**
+     * Reads the next command entered by the user. Displays a context-aware prompt
+     * showing the name of the currently opened trip if applicable.
+     *
+     * @param currentTripName The name of the trip currently being managed, or null if none.
+     * @return The trimmed, lowercase string representing the user's command.
+     */
     public String readCommand(String currentTripName) {
         if (currentTripName == null) {
             System.out.print("> ");
@@ -33,6 +49,9 @@ public class Ui {
         return input.trim().toLowerCase();
     }
 
+    /**
+     * Displays the welcome message and application logo to the user upon startup.
+     */
     public void showWelcomeMessage() {
         System.out.println("Welcome to \n" + LOGO);
         System.out.println("How can I help you plan today?");
@@ -44,6 +63,13 @@ public class Ui {
                 "help, exit");
     }
 
+    /**
+     * Prompts the user for a required text field. Will repeat the prompt if
+     * the user provides an empty input.
+     *
+     * @param label The descriptive label for the requested input.
+     * @return The non-empty string provided by the user.
+     */
     public String promptField(String label) {
         while (true) {
             System.out.print(label + ": ");
@@ -55,11 +81,24 @@ public class Ui {
         }
     }
 
+    /**
+     * Prompts the user for a text field that can be left blank.
+     *
+     * @param label The descriptive label for the requested input.
+     * @return The string provided by the user, which may be empty.
+     */
     public String promptOptionalField(String label) {
         System.out.print(label + ": ");
         return in.nextLine().trim();
     }
 
+    /**
+     * Prompts the user for an integer value. Will repeat the prompt until
+     * a valid integer is entered.
+     *
+     * @param label The descriptive label for the requested input.
+     * @return The integer value provided by the user.
+     */
     public int promptInt(String label) {
         while (true) {
             System.out.print(label + ": ");
@@ -72,6 +111,13 @@ public class Ui {
         }
     }
 
+    /**
+     * Prompts the user for a double value. Will repeat the prompt until
+     * a valid decimal number is entered.
+     *
+     * @param label The descriptive label for the requested input.
+     * @return The double value provided by the user.
+     */
     public double promptDouble(String label) {
         while (true) {
             System.out.print(label + ": ");
@@ -84,6 +130,12 @@ public class Ui {
         }
     }
 
+    /**
+     * Prompts the user for a date. Validates the input against the YYYY-MM-DD format.
+     *
+     * @param label The descriptive label for the requested input.
+     * @return A valid date string in YYYY-MM-DD format.
+     */
     public String promptDate(String label) {
         while (true) {
             System.out.print(label + " (YYYY-MM-DD): ");
@@ -97,6 +149,12 @@ public class Ui {
         }
     }
 
+    /**
+     * Prompts the user for a time. Validates the input against the 24-hour HH:MM format.
+     *
+     * @param label The descriptive label for the requested input.
+     * @return A valid time string in HH:MM format.
+     */
     public String promptTime(String label) {
         while (true) {
             System.out.print(label + " (HH:MM): ");
@@ -110,21 +168,40 @@ public class Ui {
         }
     }
 
+    /**
+     * Displays a general message to the user.
+     *
+     * @param message The text to be printed.
+     */
     public void showMessage(String message) {
         System.out.println(message);
     }
 
+    /**
+     * Displays an error message formatted with an error prefix.
+     *
+     * @param message The error description to be printed.
+     */
     public void showError(String message) {
         System.out.println("Error. " + message);
     }
 
+    /**
+     * Prints a visual divider line to the console.
+     */
     public void printDivider(){
         System.out.println("===========================================================");
     }
 
+    /**
+     * Displays a message to the user enclosed within two visual divider lines.
+     *
+     * @param message The text to be printed.
+     */
     public void showMessageWithDivider(String message) {
         printDivider();
         System.out.println(message);
         printDivider();
     }
+
 }

@@ -10,6 +10,7 @@ import seedu.traveltrio.model.trip.Trip;
  * Maintains activities in sorted order by date and time, and checks for scheduling conflicts.
  */
 public class ActivityList {
+
     private final ArrayList<Activity> activities;
     private Trip trip;
 
