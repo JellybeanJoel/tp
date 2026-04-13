@@ -226,7 +226,7 @@ public class CommandProcessor {
      */
     private void handleSetExpense() throws TravelTrioException {
         ensureTripOpen();
-        if (openTrip.getActivities().isEmpty()) {
+        if (openTrip.getActivities().isEmpty() || openTrip.getBudgets().isEmpty()) {
             throw new TravelTrioException("Activity list is empty! No activity to set expense for now...");
         }
         printActivityList();
