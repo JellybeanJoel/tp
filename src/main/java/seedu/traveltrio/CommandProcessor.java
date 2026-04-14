@@ -217,8 +217,8 @@ public class CommandProcessor {
      */
     private void handleSetCurrency() throws TravelTrioException {
         ensureTripOpen();
-        double exchangeRate = ui.promptDouble("Current exchange rate is 1 Foreign Currency = " 
-                + openTrip.getBudgets().getExchangeRate() 
+        double exchangeRate = ui.promptDouble("Current exchange rate is 1 Foreign Currency = "
+                + openTrip.getBudgets().getExchangeRate()
                 + " Home Currency.\nEnter the exchange rate (1 Foreign Currency = ? Home Currency)");
         ui.showMessage(new SetCurrencyCommand(openTrip.getBudgets(),
                 openTrip.getActivities(), null, exchangeRate).run());
@@ -231,8 +231,12 @@ public class CommandProcessor {
      */
     private void handleSetExpense() throws TravelTrioException {
         ensureTripOpen();
-        if (openTrip.getActivities().isEmpty() || openTrip.getBudgets().isEmpty()) {
-            throw new TravelTrioException("Activity list is empty! No activity to set expense for now...");
+        if (openTrip.getActivities().isEmpty()) {
+            throw new TravelTrioException("No activities found. Please add an activity before setting an expense.");
+        }
+        if (openTrip.getBudgets().isEmpty()) {
+            throw new TravelTrioException("No budgets set yet. " +
+                    "Please use 'setbudget' to assign a budget to an activity first.");
         }
         printActivityList();
         ActivityList activities = openTrip.getActivities();
@@ -264,7 +268,7 @@ public class CommandProcessor {
         if (!currencyChoice.equalsIgnoreCase("y") && !currencyChoice.equalsIgnoreCase("n")) {
             throw new TravelTrioException("Invalid choice for currency. Please enter 'y' for Yes or 'n' for No.");
         }
-        
+
         boolean isForeignCurrency = currencyChoice.equalsIgnoreCase("y");
         double actualAmount = ui.promptDouble("Enter amount spent ($)");
         String successMessage = new SetExpenseCommand(
@@ -529,7 +533,7 @@ public class CommandProcessor {
     private void handleSetDailyLimit() throws TravelTrioException {
         ensureTripOpen();
         double amount = ui.promptDouble("Enter daily spending limit to set (enter 0 to remove limit)");
-        String message = new SetDailyLimitCommand(openTrip.getBudgets(), amount, 
+        String message = new SetDailyLimitCommand(openTrip.getBudgets(), amount,
                 openTrip.getStartDate(), openTrip.getEndDate()).execute();
         ui.showMessage(message);
     }
