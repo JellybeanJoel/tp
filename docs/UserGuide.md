@@ -550,11 +550,11 @@ Sets a daily spending limit for the currently opened trip. This allows users to 
 
 * Format: `setdailylimit`
   * After entering the command, the application will prompt the user for inputs:
-    * `Enter daily spending limit to set ($):`
+    * `Enter daily spending limit to set (enter 0 to remove limit):`
 
 * Example usage:
     ```text
-    Enter daily spending limit to set ($): 500
+    Enter daily spending limit to set (enter 0 to remove limit): 500
     ```
 * Expected result: 
     ```text

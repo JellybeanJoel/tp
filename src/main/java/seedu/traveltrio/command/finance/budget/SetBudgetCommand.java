@@ -31,7 +31,7 @@ public class SetBudgetCommand extends BudgetCommand {
         if (isForeign) {
             adjustedBudget *= budgetList.getExchangeRate();
         }
-        if (Math.abs(adjustedBudget) < 0.0001) {
+        if (Math.abs(adjustedBudget) < 0.01) {
             this.totalBudget = 0;
         } else {
             this.totalBudget = adjustedBudget;
@@ -60,7 +60,7 @@ public class SetBudgetCommand extends BudgetCommand {
         }
         Budget newBudget = new Budget(totalBudget, activity);
         budgetList.addBudget(activity, newBudget);
-        return "Added budget for " + activity.getName() + ": $" + String.format("%.4f", totalBudget);
+        return "Added budget for " + activity.getName() + ": $" + String.format("%.2f", totalBudget);
     }
     
 }
