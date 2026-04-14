@@ -281,7 +281,7 @@ The feature mainly involves the following classes:
 - Ui — handles all interactions with the user, such as prompting for the activity index and budget amount.
 - Storage — handles all saving and loading of txt file, allowing for saving of data across sessions. 
 
-The `SetBudgetCommand` receives the target `BudgetList`, `ActivityList`, the specific `Activity`, and the budget amount.
+The `SetBudgetCommand` receives the target `BudgetList`, `ActivityList`, the specific `Activity`, the budget amount, and whether the amount is in foreign currency.
 When `SetBudgetCommand#execute()` is called, a new `Budget` is created and added to the `BudgetList` for the activity, and a success message is returned.
 
 Given below is an example usage scenario and how the set budget mechanism behaves at each step.
@@ -290,9 +290,9 @@ Step 1. The user opens a trip, for example Japan Trip. The opened Trip contains 
 
 Step 2. The user executes a `setbudget` command, followed by seeing the list of all current activities.
 
-Step 3. The application prompts the user to select an activity from the list and enter the budget amount.
+Step 3. The application prompts the user to select an activity from the list, choose the currency, and enter the budget amount.
 
-Step 4. The application creates a `SetBudgetCommand`, passing in the current trip’s `BudgetList`, `ActivityList`, the selected `Activity`, and the budget amount.
+Step 4. The application creates a `SetBudgetCommand`, passing in the current trip’s `BudgetList`, `ActivityList`, the selected `Activity`, the budget amount, and the currency flag.
 
 Step 5. The user command is executed through `SetBudgetCommand#execute()`. The command creates a new `Budget` object and calls `BudgetList#addBudget(activity, budget)` to store it.
 
@@ -675,7 +675,7 @@ Packing List:
 
 #### Scenario 3: Budget Management (if activity has no budget set)
 1. Ensure a trip is open with at least one activity
-2. **Set budget:** Type `setbudget`, select an activity, and enter a budget amount (e.g., 150.00)
+2. **Set budget:** Type `setbudget`, select an activity, choose if the amount is in foreign currency, and enter a budget amount (e.g., 150.00)
 3. **Set expense (below budget):** Type `setexpense`, select the same activity, and enter an amount less than the budget (e.g., 100.00)
    - **Expected:** Confirmation that expense is recorded successfully
 4. **Set expense (warning level):** Type `setexpense` again, entering an amount that brings total to 90% or more of budget (e.g., 40.00 more = 140.00 total)

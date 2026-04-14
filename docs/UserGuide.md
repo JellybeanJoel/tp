@@ -398,11 +398,12 @@ Display the next closest activity that would happen
 *Note: All monetary values displayed are of the home currency of the user.*
 
 #### 3.1 Adding a Budget for an Activity
-Records the expected or planned cost of an activity in the users home currency. To change the budget for a specific activity, the same command is used with the new budget amount. To delete a budget, simply use the same command and set the budget for the activity to 0. When the budget is removed, the expense for it is deleted concurrently.
+Records the expected or planned cost of an activity. You can enter the amount in either home or foreign currency, and TravelTrio will convert it automatically if needed. To change the budget for a specific activity, the same command is used with the new budget amount. To delete a budget, simply use the same command and set the budget for the activity to 0. When the budget is removed, the expense for it is deleted concurrently.
 
 * Format: `setbudget`
     * After entering the command, the application will prompt the user for inputs:
         * `Enter the index of the activity to add a budget for:`
+        * `Is this amount in foreign currency? (y/n):`
         * `Enter budget amount ($):`
       
 * Example usage:
@@ -416,6 +417,7 @@ Records the expected or planned cost of an activity in the users home currency. 
     2   | Night Swim                | Hotel           | 2026-12-11   | 16:00 to 17:00 | -
   
     Enter the index of the activity to add a budget for:  1
+    Is this amount in foreign currency? (y/n): n
     Enter budget amount ($):  200
     ```
 * Expected result:
@@ -492,7 +494,7 @@ Records the actual amount spent on an activity. This allows users to compare the
 * Format: `setexpense`
   * After entering the command, the application will prompt the user for inputs:
     * `Enter the activity index to set actual spending`
-    * `Is the amount in foreign currency? (y/n)`
+    * `Is this amount in foreign currency? (y/n)`
     * `Enter amount spent ($):`
     
 * Example usage:

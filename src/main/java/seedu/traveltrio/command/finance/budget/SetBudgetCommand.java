@@ -22,13 +22,18 @@ public class SetBudgetCommand extends BudgetCommand {
      * @param activityList The list containing all scheduled activities for the current trip.
      * @param activity The specific activity to assign the budget to.
      * @param totalBudget The monetary amount to set as the budget.
+     * @param isForeign True if the amount is in foreign currency, false if in home currency.
      */
-    public SetBudgetCommand(BudgetList budgetList, ActivityList activityList, Activity activity, double totalBudget) {
+    public SetBudgetCommand(BudgetList budgetList, ActivityList activityList, Activity activity, double totalBudget, boolean isForeign) {
         super(budgetList, activityList , activity);
-        if (Math.abs(totalBudget) < 0.0001) {
+        double adjustedBudget = totalBudget;
+        if (isForeign) {
+            adjustedBudget *= budgetList.getExchangeRate();
+        }
+        if (Math.abs(adjustedBudget) < 0.0001) {
             this.totalBudget = 0;
         } else {
-            this.totalBudget = totalBudget;
+            this.totalBudget = adjustedBudget;
         }
     }
 
