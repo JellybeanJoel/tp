@@ -492,7 +492,7 @@ Records the actual amount spent on an activity. This allows users to compare the
 * Format: `setexpense`
   * After entering the command, the application will prompt the user for inputs:
     * `Enter the activity index to set actual spending`
-    * `Is the amount in foreign currency?`
+    * `Is the amount in foreign currency? (y/n)`
     * `Enter amount spent ($):`
     
 * Example usage:
