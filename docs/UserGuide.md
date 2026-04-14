@@ -6,9 +6,9 @@ Whether you are planning a weekend getaway or a month-long backpacking trip, Tra
 
 ## Quick Start
 1. Ensure that you have Java 17 or above installed.
-2. Download the latest version of `tp.jar` from our [GitHub Releases Page](https://github.com/AY2526S2-CS2113-F09-4/tp/releases). 
+2. Download the latest version of `[CS2113-T09-4][TravelTrio].jar` from our [GitHub Releases Page](https://github.com/AY2526S2-CS2113-F09-4/tp/releases). 
 3. Copy the file to the folder you want to use as the home folder for your travel plans.
-4. Open a command terminal (e.g., Command Prompt on Windows, Terminal on macOS), navigate to the folder where you placed the `.jar` file, and run the following command: `java -jar tp.jar`.
+4. Open a command terminal (e.g., Command Prompt on Windows, Terminal on macOS), navigate to the folder where you placed the `.jar` file, and run the following command: `java -jar [CS2113-T09-4][TravelTrio].jar`.
 5. You should see the TravelTrio welcome logo. Type `help` and press Enter to see the list of available commands to get started!
 6. The command prompt will display your current working context:
    * `> ` means no trip is currently open
