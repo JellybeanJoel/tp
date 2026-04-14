@@ -57,7 +57,8 @@ public class BudgetSummaryCommandTest {
         // Construct expected string format based on Budget#toString()
         String expected = "Total trip budget: $220.00\n" +
                 "Total expense: $50.00\n" +
-                "Total remaining budget: $170.00\n\n" +
+                "Total remaining budget: $170.00\n" +
+                "Exchange rate: 1 Foreign Currency = 1.00 Home Currency\n\n" +
                 "Budget Breakdown:\n" +
                 "1. Hiking\n   Total: $200.00 | Spent: $50.00 | Remaining: $150.00\n" +
                 "2. Night Swim\n   Total: $20.00 | Spent: $0.00 | Remaining: $20.00\n";

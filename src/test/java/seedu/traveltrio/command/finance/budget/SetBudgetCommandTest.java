@@ -25,7 +25,7 @@ public class SetBudgetCommandTest {
         SetBudgetCommand command = new SetBudgetCommand(budgetList, activityList, activity, 200.00, false);
         String result = command.execute();
 
-        assertEquals("Added budget for Hiking: $200.00", result);
+        assertEquals("Added budget for Hiking: $200.0000", result);
         assertNotNull(budgetList.getBudget(activity));
         assertEquals(200.00, budgetList.getBudget(activity).getActivityBudget());
     }
@@ -43,7 +43,7 @@ public class SetBudgetCommandTest {
         String result = command.execute();
 
         // 100 foreign * 1.50 exchange rate = 150.00 home currency
-        assertEquals("Added budget for Night Swim: $150.00", result);
+        assertEquals("Added budget for Night Swim: $150.0000", result);
         assertNotNull(budgetList.getBudget(activity));
         assertEquals(150.00, budgetList.getBudget(activity).getActivityBudget());
     }
@@ -59,6 +59,6 @@ public class SetBudgetCommandTest {
         SetBudgetCommand command = new SetBudgetCommand(budgetList, activityList, activity, -50.00, false);
 
         TravelTrioException exception = assertThrows(TravelTrioException.class, () -> command.execute());
-        assertEquals("Budget amount cannot be negative.", exception.getMessage());
+        assertEquals("Total budget cannot be negative.", exception.getMessage());
     }
 }
