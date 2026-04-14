@@ -24,7 +24,8 @@ public class SetBudgetCommand extends BudgetCommand {
      * @param totalBudget The monetary amount to set as the budget.
      * @param isForeign True if the amount is in foreign currency, false if in home currency.
      */
-    public SetBudgetCommand(BudgetList budgetList, ActivityList activityList, Activity activity, double totalBudget, boolean isForeign) {
+    public SetBudgetCommand(BudgetList budgetList, ActivityList activityList,
+                Activity activity, double totalBudget, boolean isForeign) {
         super(budgetList, activityList , activity);
         double adjustedBudget = totalBudget;
         if (isForeign) {
