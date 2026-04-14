@@ -139,7 +139,7 @@ public class BudgetList {
         if (budget == null) {
             throw new TravelTrioException("You must add a budget for this activity first.");
         }
-        if (willExceedDailyLimit(activity, newExpense)){
+        if (willExceedDailyLimit(activity, newExpense)) {
             throw new TravelTrioException("This will result in daily spending limit exceeded.\n" +
                     "Please either set a lower expense amount or set a higher daily limit.");
         }

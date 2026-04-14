@@ -35,7 +35,7 @@ public class ActivityList {
     public String add(Activity a) throws TravelTrioException {
         assert a != null : "Activity to add should not be null";
 
-        for(Activity existing : activities){
+        for (Activity existing : activities) {
             if (a.overlapsWith(existing)) {
                 throw new TravelTrioException("Warning: This activity overlaps with an existing activity:\n\n"
                         + existing.formatForDisplay() + "\n\n"
